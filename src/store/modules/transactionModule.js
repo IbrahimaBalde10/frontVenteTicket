@@ -8,6 +8,7 @@ const state = {
   totalTransactionsByType: [],
   totalTransactions: 0,
   totalAmount: 0,
+  dailyRevenues: [],
   errorMessage: null,
 };
 
@@ -15,10 +16,14 @@ const getters = {
   allTransactions: (state) => state.transactions,
   errorMessage: (state) => state.errorMessage,
   transactionCount: (state) => state.transactions.length,
+  
   transactionsByType: (state) => state.transactionsByType,
   totalTransactionsByType: (state) => state.totalTransactionsByType,
   totalTransactions: (state) => state.totalTransactions,
   totalAmount: (state) => state.totalAmount,
+
+  dailyRevenues: (state) => state.dailyRevenues, // Add this getter
+
 };
 
 const actions = {
@@ -110,6 +115,26 @@ const actions = {
       handleError(error);
     }
   },
+
+// revenu/jour
+async fetchDailyRevenues({ commit }) {
+  try {
+     const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No token found');
+      }
+    const response = await axios.get('http://localhost:8000/api/transactions/revenues-daily', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    commit("SET_DAILY_REVENUES", response.data);
+  } catch (error) {
+    console.error("An error occurred while fetching daily revenues:", error);
+  }
+}
+
+
 };
 
 const mutations = {
@@ -132,6 +157,10 @@ const mutations = {
   setTotalTransactionsByType(state, totalTransactionsByType) {
     state.totalTransactionsByType = totalTransactionsByType;
   },
+  SET_DAILY_REVENUES(state, revenues) { // Add this mutation
+      state.dailyRevenues = revenues;
+  },
+  
 };
 
 function handleError(error) {

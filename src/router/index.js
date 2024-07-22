@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store/store'; // Importer le store
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +14,7 @@ const router = createRouter({
           path: 'dashboard',
           component: () => import('../pages/dashboard.vue'),
           meta: { requiresAuth: true }
+          
         },
         // test
         {
@@ -20,23 +22,6 @@ const router = createRouter({
           component: () => import('@/pages/transactions/Dashboard.vue'),
           name: 'testDasboardVue',  
         },
-        {
-          path: 'typography',
-          component: () => import('../pages/typography.vue'),
-        },
-        {
-          path: 'cards',
-          component: () => import('../pages/cards.vue'),
-        },
-        {
-          path: 'tables',
-          component: () => import('../pages/tables.vue'),
-        },
-        {
-          path: 'form-layouts',
-          component: () => import('../pages/form-layouts.vue'),
-        },
-      
       //  route Users
          { 
           path: 'userManagement',
@@ -115,23 +100,22 @@ const router = createRouter({
         // route transcation
         //  lister
          { 
-          path: 'transcationManagement',
-          component: () => import('../pages/transactions/transactionManagement.vue'),
+          path: 'transcation',
+          component: () => import('../pages/transactions/transcation.vue'),
           meta: { requiresAuth: true } ,
-          name: 'transcation' //addTypeTicket
+          name: 'transcation'
         },
-
-         { 
+       { 
           path: 'statistiqueTransaction',
           component: () => import('../pages/transactions/Statistique.vue'),
           meta: { requiresAuth: true } ,
-          name: 'statistiqueTransaction' //addTypeTicket
+          name: 'statistiqueTransaction'
         },
           { 
           path: 'graphesTransaction',
           component: () => import('../pages/transactions/Graphes.vue'),
           meta: { requiresAuth: true } ,
-          name: 'graphesTransaction' //addTypeTicket
+          name: 'graphesTransaction'
         },
       ],
       
@@ -143,7 +127,7 @@ const router = createRouter({
         {
           path: 'login',
           component: () => import('../pages/login.vue'),
-          name: 'login' // Assurez-vous que le nom de route est 'login'
+          name: 'login'
         },
         {
           path: 'register',
@@ -158,4 +142,16 @@ const router = createRouter({
   ],
 })
 
+// Navigation guard pour rediriger les utilisateurs non authentifiés
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.isAuthenticated) {
+      next({ name: 'login' });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 export default router

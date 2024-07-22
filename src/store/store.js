@@ -2,9 +2,9 @@ import { createStore } from "vuex";
 import router from "../router/index.js";
 import axios from "../axios.js";
 
-import users from './modules/userModule.js'; // Importer le module des utilisateurs
-import typeTickets from './modules/typeTicketModule.js'; // Importer le module des utilisateurs
-import typeSubscriptions from './modules/typeSubscriptionModule.js'; // Importer le module des utilisateurs
+import users from './modules/userModule.js';
+import typeTickets from './modules/typeTicketModule.js';
+import typeSubscriptions from './modules/typeSubscriptionModule.js';
 import transactions from './modules/transactionModule.js';
 import tickets from './modules/ticketModule.js';
 import subscriptions from './modules/subscriptionModule.js';
@@ -15,6 +15,7 @@ export default createStore({
     user: localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
       : null,
+    loginError: null, // Add this line
   },
 
   mutations: {
@@ -30,6 +31,9 @@ export default createStore({
       localStorage.removeItem("token");
       localStorage.removeItem("user");
     },
+    SET_LOGIN_ERROR(state, errorMessage) { // Add this mutation
+      state.loginError = errorMessage;
+    },
   },
 
   actions: {
@@ -40,9 +44,18 @@ export default createStore({
           credentials
         );
         const userData = response.data;
+        
+        if (userData.user.role !== 'Admin' && userData.user.role !== 'Comptable') {
+          commit("SET_LOGIN_ERROR", "Accès non autorisé. Vous devez être admin ou comptable.");
+          throw new Error("Unauthorized access");
+        }
+
         commit("LOGIN", userData);
       } catch (error) {
         console.error("An error occurred during login:", error);
+        if (!error.message.includes("Unauthorized access")) {
+          commit("SET_LOGIN_ERROR", "An error occurred during login. Please try again.");
+        }
         throw error; // Optional: rethrow the error if you want to handle it in the component
       }
     },
@@ -63,20 +76,17 @@ export default createStore({
 
     async logout({ commit }) {
       try {
-        // Assurez-vous d'envoyer le token d'authentification
         const token = localStorage.getItem("token");
         if (!token) {
           throw new Error("No token available");
         }
 
-        // Déconnexion côté serveur en envoyant le token
         await axios.post("http://localhost:8000/api/logout", null, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        // Réinitialisation de l'état local et redirection vers la page de connexion
         commit("LOGOUT");
         router.push({ name: "login" });
       } catch (error) {
@@ -93,10 +103,11 @@ export default createStore({
   getters: {
     isAuthenticated: (state) => state.isLoggedIn,
     getUser: (state) => state.user,
+    loginError: (state) => state.loginError, // Add this getter
   },
 
   modules: {
-    users, // Ajouter le module des utilisateurs
+    users,
     typeTickets,
     typeSubscriptions,
     transactions,

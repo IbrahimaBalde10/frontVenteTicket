@@ -56,9 +56,9 @@ const deleteTypeSubscription = async (typeSubscriptionId) => {
                 <td>{{ typeSubscription.name }}</td>
                 <td>{{ typeSubscription.price }}</td>
                 <td>
-                  <VBtn @click="showTypeSubscription(typeSubscription.id)" color="primary" small>Show</VBtn>
-                  <VBtn @click="updateTypeSubscription(typeSubscription.id)" color="warning" small>Update</VBtn>
-                  <VBtn @click="deleteTypeSubscription(typeSubscription.id)" color="error" small>Delete</VBtn>
+                  <VIcon @click="updateTypeSubscription(typeSubscription.id)" class="ms-2" color="warning" small>mdi-pencil</VIcon>
+                  <VIcon @click="deleteTypeSubscription(typeSubscription.id)" color="error" small>mdi-delete</VIcon>
+         
                 </td>
               </tr>
             </tbody>

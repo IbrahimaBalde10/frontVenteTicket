@@ -1,13 +1,15 @@
 <script setup>
-import illustrationJohnDark from '@images/cards/illustration-john-dark.png'
-import illustrationJohnLight from '@images/cards/illustration-john-light.png'
+// import illustrationJohnDark from '@images/cards/illustration-john-dark.png'
+// import illustrationJohnLight from '@images/cards/illustration-john-light.png'
 import { useTheme } from 'vuetify'
 
 
 
 const { global } = useTheme()
-const illustrationJohn = computed(() => global.name.value === 'dark' ? illustrationJohnDark : illustrationJohnLight)
 
+// const illustrationJohn = computed(() => global.name.value === 'dark' ? illustrationJohnDark : illustrationJohnLight)
+// myImages
+import userAvatar from '@images/myImages/ib.jpg'
 // etat de user
 import { useStore } from 'vuex';
 import { computed } from 'vue';
@@ -33,7 +35,7 @@ const user = computed(() => store.getters.getUser);
           <VCardTitle class="text-md-h5 text-primary">
             <!-- Congratulations John! 🎉 -->
              <div>
-                <h2 v-if="isAuthenticated">Welcome, {{ user.nom }}</h2>
+                <h2 v-if="isAuthenticated">Welcome, {{ user.nom }} {{user.prenom}}</h2>
                 <p v-else>Please log in to access this page.</p>
               </div>
           </VCardTitle>
@@ -64,10 +66,10 @@ const user = computed(() => store.getters.getUser);
         class="text-center"
       >
         <img
-          :src="illustrationJohn"
+          :src="userAvatar"
           :height="$vuetify.display.xs ? '150' : '175'"
           :class="$vuetify.display.xs ? 'mt-6 mb-n2' : 'position-absolute'"
-          class="john-illustration flip-in-rtl"
+          class="illustration flip-in-rtl"
         >
       </VCol>
     </VRow>
@@ -75,7 +77,7 @@ const user = computed(() => store.getters.getUser);
 </template>
 
 <style lang="scss" scoped>
-.john-illustration {
+.illustration {
   inset-block-end: -0.0625rem;
   inset-inline-end: 3rem;
 }

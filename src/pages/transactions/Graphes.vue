@@ -1,68 +1,109 @@
-<script setup>
-import { useStore } from 'vuex'
-import { onMounted, computed } from 'vue'
-import BarChart from './BarChart.vue'
-import PieChart from './PieChart.vue'
-
-const store = useStore()
-
-onMounted(() => {
-  store.dispatch('transactions/fetchTransactionSummary')
-  store.dispatch('transactions/fetchTransactionsByType')
-  store.dispatch('transactions/fetchTotalTransactionsByType')
-})
-
-const totalTransactions = computed(() => store.getters['transactions/totalTransactions'])
-const totalAmount = computed(() => store.getters['transactions/totalAmount'])
-const transactionsByType = computed(() => store.getters['transactions/transactionsByType'])
-const totalTransactionsByType = computed(() => store.getters['transactions/totalTransactionsByType'])
-
-const transactionsByTypeChartData = computed(() => {
-  const labels = transactionsByType.value.map(transaction => transaction.transaction_name)
-  const data = transactionsByType.value.map(transaction => transaction.count)
-  return {
-    labels,
-    datasets: [
-      {
-        label: 'Nombre de Transactions par Type',
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-        data,
-      },
-    ],
-  }
-})
-
-const totalTransactionsByTypeChartData = computed(() => {
-  const labels = totalTransactionsByType.value.map(transaction => transaction.transaction_name)
-  const data = totalTransactionsByType.value.map(transaction => transaction.total_amount)
-  return {
-    labels,
-    datasets: [
-      {
-        label: 'Montant Total des Transactions par Type',
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-        data,
-      },
-    ],
-  }
-})
-</script>
-
 <template>
-  <div>
-    <h3>Résumé Général des Transactions</h3>
-    <p>Total des transactions : {{ totalTransactions }}</p>
-    <p>Montant total des transactions : {{ totalAmount }} CFA</p>
+  <VCard>
+    <VCardText class="pb-1">
+      <h6 class="text-base font-weight-regular">
+        Revenus Quotidiens
+      </h6>
+      <h5 class="text-h5 font-weight-medium">
+        {{ totalRevenue }} CFA
+      </h5>
+    </VCardText>
 
-    <h3>Détails par Type de Transaction</h3>
-    <h4>Nombre de Transactions par Type</h4>
-    <pie-chart :chart-data="transactionsByTypeChartData" />
-
-    <h4>Montant Total des Transactions par Type</h4>
-    <bar-chart :chart-data="totalTransactionsByTypeChartData" />
-  </div>
+    <VueApexCharts
+      type="bar"
+      :height="300"
+      :options="chartOptions"
+      :series="series"
+    />
+  </VCard>
 </template>
 
+<script setup>
+import { computed, onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
+import VueApexCharts from 'vue3-apexcharts';
+import { useTheme } from 'vuetify';
+import { hexToRgb } from '@layouts/utils'; // Assurez-vous que cette fonction est correctement importée
+
+const store = useStore();
+const vuetifyTheme = useTheme();
+
+const dailyRevenues = computed(() => store.getters['transactions/dailyRevenues']);
+const totalRevenue = computed(() => dailyRevenues.value.reduce((acc, curr) => acc + curr.total_revenue, 0));
+
+// Series for the chart
+const series = computed(() => [{
+  data: dailyRevenues.value.map(revenue => revenue.total_revenue),
+}]);
+
+// Options for the chart
+const chartOptions = computed(() => {
+  const currentTheme = vuetifyTheme.current.value.colors;
+  const variableTheme = vuetifyTheme.current.value.variables;
+  const disabledText = `rgba(${ hexToRgb(String(currentTheme['on-surface'])) },${ variableTheme['disabled-opacity'] })`;
+
+  return {
+    chart: {
+      parentHeightOffset: 0,
+      toolbar: { show: false },
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 2,
+        distributed: true,
+        columnWidth: '65%',
+        endingShape: 'rounded',
+        startingShape: 'rounded',
+      },
+    },
+    legend: { show: false },
+    tooltip: { enabled: false },
+    dataLabels: { enabled: false },
+    colors: [
+      `rgba(${ hexToRgb(String(currentTheme.primary)) }, 0.16)`,
+      `rgba(${ hexToRgb(String(currentTheme.primary)) }, 0.16)`,
+      `rgba(${ hexToRgb(String(currentTheme.primary)) }, 0.16)`,
+      `rgba(${ hexToRgb(String(currentTheme.primary)) }, 0.16)`,
+      `rgba(${ hexToRgb(String(currentTheme.primary)) }, 1)`,
+      `rgba(${ hexToRgb(String(currentTheme.primary)) }, 0.16)`,
+      `rgba(${ hexToRgb(String(currentTheme.primary)) }, 0.16)`,
+    ],
+    states: {
+      hover: { filter: { type: 'none' } },
+      active: { filter: { type: 'none' } },
+    },
+    xaxis: {
+      categories: dailyRevenues.value.map(revenue => revenue.date),
+      axisTicks: { show: false },
+      axisBorder: { show: false },
+      tickPlacement: 'on',
+      labels: {
+        style: {
+          fontSize: '14px',
+          colors: disabledText,
+          fontFamily: 'Public Sans',
+        },
+      },
+    },
+    yaxis: { show: true, labels: { formatter: (value) => `${value}CFA` } },
+    grid: {
+      show: false,
+      padding: {
+        left: 0,
+        top: -10,
+        right: 7,
+        bottom: -3,
+      },
+    },
+  };
+});
+
+// Fetch daily revenues on component mount
+onMounted(() => {
+  store.dispatch('transactions/fetchDailyRevenues');
+});
+</script>
+
 <style scoped>
-/* Ajoutez des styles si nécessaire */
+/* Ajoutez vos styles ici */
 </style>

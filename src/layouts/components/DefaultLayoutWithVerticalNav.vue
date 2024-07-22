@@ -32,6 +32,7 @@ const user = computed(() => store.getters.getUser);
 <template>
   <VerticalNavLayout>
     <!-- 👉 navbar -->
+    
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
         <!-- 👉 Vertical nav toggle in overlay mode -->
@@ -62,7 +63,7 @@ const user = computed(() => store.getters.getUser);
 
         <IconBtn
           class="me-2"
-          href="https://github.com/themeselection/sneat-vuetify-vuejs-admin-template-free"
+          href="https://github.com/IbrahimaBalde10"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -124,66 +125,31 @@ const user = computed(() => store.getters.getUser);
         }"
       />
       <!-- fin  get all users-->
-      <!-- get all subscriptio -->
+        <!-- Gestion des Tickets -->
         <VerticalNavLink
         :item="{
-          title: 'Types Subscription',
-          icon: 'bx-user-plus',
-          to: '/typeSubscriptionsManagement',
-        }"
-      />
-      <!-- fin  add users-->
-       <!-- get all TypesTickets -->
-        <VerticalNavLink
-        :item="{
-          title: 'Types de Tickets',
+          title: 'Tickets',
           icon: 'bx-user-plus',
           to: '/typeTicketsManagement',
         }"
       />
-      <!-- fin  get all users-->
-      <VerticalNavLink
+      <!--  Gestion des subscriptions -->
+        <VerticalNavLink
         :item="{
-          title: 'Error',
-          icon: 'bx-info-circle',
-          to: '/no-existence',
+          title: 'Subscriptions',
+          icon: 'bx-user-plus',
+          to: '/typeSubscriptionsManagement',
         }"
       />
-
-      <!-- 👉 User Interface -->
-      <VerticalNavSectionTitle
+       <!--  Gestion des Transactions -->
+        <VerticalNavLink
         :item="{
-          heading: 'User Interface',
+          title: 'Transactions',
+          icon: 'bx-user-plus',
+          to: '/transcation',
         }"
       />
-      <VerticalNavLink
-        :item="{
-          title: 'Typography',
-          icon: 'mdi-alpha-t-box-outline',
-          to: '/typography',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Cards',
-          icon: 'bx-credit-card',
-          to: '/cards',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Tables',
-          icon: 'bx-table',
-          to: '/tables',
-        }"
-      />
-      <VerticalNavLink
-        :item="{
-          title: 'Form Layouts',
-          icon: 'mdi-form-select',
-          to: '/form-layouts',
-        }"
-      />
+     
     </template>
 
     <!-- 👉 Pages -->

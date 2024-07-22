@@ -9,7 +9,7 @@
         </template>
 
         <VCardTitle class="text-2xl font-weight-bold">
-          Sneat
+          SunuAPP
         </VCardTitle>
       </VCardItem>
 

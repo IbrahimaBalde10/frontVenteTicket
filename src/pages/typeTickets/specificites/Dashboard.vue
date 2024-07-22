@@ -10,16 +10,13 @@ import { onMounted, computed } from 'vue';
 const icon = 'bx-log-in';
 const store = useStore();
 onMounted(() => {
-  // store.dispatch('users/fetchUsers');
-  // store.dispatch('transactions/fetchTransactions');
+  
   store.dispatch('tickets/fetchTickets');
   // 
   store.dispatch('tickets/fetchTicketsByType');
   store.dispatch('tickets/fetchTotalRevenueByType');
 });
 
-const userCount = computed(() => store.getters['users/userCount']); // Utilisation de computed pour réagir aux changements
-const transactionCount = computed(() => store.getters['transactions/transactionCount']); // Utilisation de computed pour réagir aux changements
 const ticketCount = computed(() => store.getters['tickets/ticketCount']); // Utilisation de computed pour réagir aux changements
 // 
 
@@ -40,14 +37,14 @@ const allTicketsEspire = computed(() => store.getters['tickets/allTickets'].filt
   <VRow>
     <VCol cols="12" md="3" v-for="revenue in totalRevenueByType" :key="revenue.type_name">
         <CardStatisticsVertical
-          :title="revenue.type_name + ' Revenue'"
+          :title=" ' Revenue des tickets ' +revenue.type_name+ ':'"
           icon="mdi-currency-usd"
           :image="ticketIcon"
           :stats="revenue.total_revenue +' CFA'"
           :change="revenue.total_revenue / totalRevenue * 100"
         />
       </VCol>
-      <VCol cols="12" md="3" v-for="ticket in ticketsByType" :key="ticket.type_name">
+      <!-- <VCol cols="12" md="3" v-for="ticket in ticketsByType" :key="ticket.type_name">
         <CardStatisticsVertical
           :title="ticket.type_name"
           icon="mdi-ticket"
@@ -55,10 +52,10 @@ const allTicketsEspire = computed(() => store.getters['tickets/allTickets'].filt
           :stats="ticket.count"
           :change="ticket.count / ticketCount * 100"
         />
-      </VCol>
+      </VCol> -->
       <VCol cols="12" md="3">
         <CardStatisticsVertical
-          title="Tickets Valide"
+          title="Nbre de tickets Valide"
           icon="mdi-check-circle-outline"
            :image="ticketIcon"
           :stats="allTicketsValide.length"
@@ -66,7 +63,7 @@ const allTicketsEspire = computed(() => store.getters['tickets/allTickets'].filt
       </VCol>
       <VCol cols="12" md="3">
         <CardStatisticsVertical
-          title="Tickets Espire"
+          title="Nbre de tickets Espire"
           icon="mdi-check-circle-outline"
            :image="ticketIcon"
           :stats="allTicketsEspire.length"

@@ -2,10 +2,10 @@
 // liste des composants affichés sur le dashboard
 import AnalyticsCongratulations from '@/views/dashboard/AnalyticsCongratulations.vue'
 import AnalyticsFinanceTabs from '@/views/dashboard/AnalyticsFinanceTab.vue'
-import AnalyticsOrderStatistics from '@/views/dashboard/AnalyticsOrderStatistics.vue'
-import AnalyticsProfitReport from '@/views/dashboard/AnalyticsProfitReport.vue'
+// import AnalyticsOrderStatistics from '@/views/dashboard/AnalyticsOrderStatistics.vue'
+// import AnalyticsProfitReport from '@/views/dashboard/AnalyticsProfitReport.vue'
 import AnalyticsTotalRevenue from '@/views/dashboard/AnalyticsTotalRevenue.vue'
-import AnalyticsTransactions from '@/views/dashboard/AnalyticsTransactions.vue'
+// import AnalyticsTransactions from '@/views/dashboard/AnalyticsTransactions.vue'
 
 
 // myImages
@@ -52,8 +52,8 @@ const subscriptionCount = computed(() => store.getters['subscriptions/subscripti
       sm="4"
     >
       <VRow>
-        <!-- 👉 Profit -->
-        <VCol cols="12" md="6">
+        <!-- 👉 Users -->
+    <VCol cols="12" md="6">
     <CardStatisticsVertical
       :title="'Utilisateurs'"
       :image="userIcon"
@@ -131,34 +131,5 @@ const subscriptionCount = computed(() => store.getters['subscriptions/subscripti
       </VRow>
     </VCol>
 
-    <!-- 👉 Order Statistics -->
-    <VCol
-      cols="12"
-      md="4"
-      sm="6"
-      order="3"
-    >
-      <AnalyticsOrderStatistics />
-    </VCol>
-
-    <!-- 👉 Tabs chart -->
-    <VCol
-      cols="12"
-      md="4"
-      sm="6"
-      order="3"
-    >
-      <AnalyticsFinanceTabs />
-    </VCol>
-
-    <VCol
-      cols="12"
-      md="4"
-      sm="6"
-      order="3"
-    >
-      <AnalyticsTransactions />
-      <AnalyticsTransactions />
-    </VCol>
   </VRow>
 </template>

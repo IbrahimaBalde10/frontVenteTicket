@@ -8,16 +8,13 @@ import { onMounted, computed } from 'vue';
 // const icon = 'bx-log-in';
 const store = useStore();
 onMounted(() => {
-  // store.dispatch('users/fetchUsers');
-  // store.dispatch('transactions/fetchTransactions');
+ 
   store.dispatch('subscriptions/fetchsubscriptions');
   // fetchsubscriptions
   store.dispatch('subscriptions/fetchsubscriptionsByType');
   store.dispatch('subscriptions/fetchTotalRevenueByType');
 });
 
-// const userCount = computed(() => store.getters['users/userCount']); // Utilisation de computed pour réagir aux changements
-// const transactionCount = computed(() => store.getters['transactions/transactionCount']); // Utilisation de computed pour réagir aux changements
 const subscriptionCount = computed(() => store.getters['subscriptions/subscriptionCount']); // Utilisation de computed pour réagir aux changements
 // 
 
@@ -38,7 +35,7 @@ const allSubscriptionsEspire = computed(() => store.getters['subscriptions/allSu
   <VRow>
     <VCol cols="12" md="3" v-for="revenue in totalRevenueByType" :key="revenue.type_name">
         <CardStatisticsVertical
-          :title="revenue.type_name + ' Revenue'"
+          :title="' Revenue '+  revenue.type_name"
           icon="mdi-currency-usd"
           :image="subscriptionIcon"
           :stats="revenue.total_revenue +' CFA'"
@@ -56,7 +53,7 @@ const allSubscriptionsEspire = computed(() => store.getters['subscriptions/allSu
       </VCol>
       <VCol cols="12" md="3">
         <CardStatisticsVertical
-          title="subscriptions Valide"
+          title="Subscriptions Valide"
           icon="mdi-check-circle-outline"
            :image="subscriptionIcon"
           :stats="allSubscriptionsValide.length"

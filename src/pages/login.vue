@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import logo from '@images/logo.svg?raw';
@@ -11,7 +11,6 @@ const form = ref({
 });
 
 const isPasswordVisible = ref(false);
-const generalErrorMessage = ref('');
 const errors = ref({
   identifier: '',
   password: ''
@@ -19,6 +18,8 @@ const errors = ref({
 
 const store = useStore();
 const router = useRouter();
+
+const loginError = computed(() => store.getters.loginError); // Add this line
 
 const validateForm = () => {
   let isValid = true;
@@ -41,7 +42,6 @@ const validateForm = () => {
 };
 
 const handleLogin = async () => {
-  generalErrorMessage.value = '';
   if (!validateForm()) {
     return;
   }
@@ -55,11 +55,11 @@ const handleLogin = async () => {
     await store.dispatch('login', userData);
     router.push('/');
   } catch (error) {
-    generalErrorMessage.value = 'An error occurred during login. Please try again.';
     console.error('An error occurred during login:', error);
   }
 };
 </script>
+
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
     <VCard class="auth-card pa-4 pt-7" max-width="448">
@@ -71,13 +71,13 @@ const handleLogin = async () => {
         </template>
 
         <VCardTitle class="text-2xl font-weight-bold">
-          Sneat
+          SunuAPP
         </VCardTitle>
       </VCardItem>
 
       <VCardText class="pt-2">
         <h5 class="text-h5 mb-1">
-          Welcome to Sneat! 👋🏻
+          Welcome to  SunuAPP! 👋🏻
         </h5>
         <p class="mb-0">
           Please sign-in to your account and start the adventure
@@ -87,7 +87,6 @@ const handleLogin = async () => {
       <VCardText>
         <VForm @submit.prevent="handleLogin">
           <VRow>
-            <!-- email or phone -->
             <VCol cols="12">
               <VTextField
                 v-model="form.identifier"
@@ -98,7 +97,6 @@ const handleLogin = async () => {
               />
             </VCol>
 
-            <!-- password -->
             <VCol cols="12">
               <VTextField
                 v-model="form.password"
@@ -110,47 +108,43 @@ const handleLogin = async () => {
                 :error-messages="errors.password"
               />
 
-              <!-- remember me checkbox -->
               <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
-                <!-- <VCheckbox v-model="form.remember" label="Remember me" /> -->
-
                 <RouterLink class="text-primary ms-2 mb-1" to="javascript:void(0)">
                   Forgot Password?
                 </RouterLink>
               </div>
 
-              <!-- login button -->
               <VBtn block type="submit">
                 Login
               </VBtn>
             </VCol>
-
-            <!-- create account -->
+<!-- 
             <VCol cols="12" class="text-center text-base">
               <span>New on our platform?</span>
               <RouterLink class="text-primary ms-2" to="/register">
                 Create an account
               </RouterLink>
-            </VCol>
+            </VCol> -->
 
             <VCol cols="12" class="d-flex align-center">
               <VDivider />
-              <span class="mx-4">or</span>
+              <!-- <span class="mx-4">or</span> -->
               <VDivider />
             </VCol>
 
-            <!-- auth providers -->
             <VCol cols="12" class="text-center">
-              <!-- <AuthProvider /> -->
+              <AuthProvider />
             </VCol>
           </VRow>
         </VForm>
-        <div v-if="generalErrorMessage" class="error-message">{{ generalErrorMessage }}</div>
+        <div v-if="loginError" class=" error error-message">{{ loginError }}</div> <!-- Add this line -->
       </VCardText>
     </VCard>
   </div>
 </template>
 
-<style lang="scss">
-@use "@core/scss/template/pages/page-auth.scss";
+<style scoped>
+  .error{
+    color: brown;
+  }
 </style>

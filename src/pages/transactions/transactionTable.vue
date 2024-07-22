@@ -50,9 +50,12 @@ const deleteTransaction = async (transactionId) => {
                 <td>{{ Transaction.transaction_name }}</td>
                 <td>{{ Transaction.total_amount }}</td>
                 <td>
-                  <VBtn @click="showTransaction(Transaction.id)" color="primary" small>Show</VBtn>
+                  <!-- <VBtn @click="showTransaction(Transaction.id)" color="primary" small>Show</VBtn>
                   <VBtn @click="updateTransaction(Transaction.id)" color="warning" small>Update</VBtn>
-                  <VBtn @click="deleteTransaction(Transaction.id)" color="error" small>Delete</VBtn>
+                  <VBtn @click="deleteTransaction(Transaction.id)" color="error" small>Delete</VBtn> -->
+                   <VIcon @click="updateTransaction(Transaction.id)" class="ms-2" color="warning" small>mdi-pencil</VIcon>
+                  <VIcon @click="deleteTransaction(Transaction.id)" color="error" small>mdi-delete</VIcon>
+         
                 </td>
               </tr>
             </tbody>
