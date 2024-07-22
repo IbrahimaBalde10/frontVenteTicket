@@ -5,10 +5,8 @@
          Total Revenue
       </h6>
       <h5 class="text-h5 font-weight-medium">
-        <!-- {{ totalRevenue }} CFA -->
          {{ totalAmount }} CFA
       </h5>
-      
     </VCardText>
 
     <VueApexCharts
@@ -34,8 +32,9 @@ const dailyRevenues = computed(() => store.getters['transactions/dailyRevenues']
 const totalRevenue = computed(() => dailyRevenues.value.reduce((acc, curr) => acc + curr.total_revenue, 0));
 const totalAmount = computed(() => store.getters['transactions/totalAmount']);
 
-
+// Fetch daily revenues on component mount
 onMounted(() => {
+  store.dispatch('transactions/fetchDailyRevenues');
   store.dispatch('transactions/fetchTransactionSummary');
 });
 
@@ -65,7 +64,15 @@ const chartOptions = computed(() => {
       },
     },
     legend: { show: false },
-    tooltip: { enabled: false },
+    tooltip: { 
+      enabled: true,
+      y: {
+        formatter: (value) => `${value} CFA`,
+        title: {
+          formatter: (seriesName) => '',
+        }
+      },
+    },
     dataLabels: { enabled: false },
     colors: [
       `rgba(${ hexToRgb(String(currentTheme.primary)) }, 0.16)`,
@@ -93,7 +100,12 @@ const chartOptions = computed(() => {
         },
       },
     },
-    yaxis: { show: true, labels: { formatter: (value) => `${value}CFA` } },
+    yaxis: { 
+      show: true, 
+      labels: { 
+        formatter: (value) => `${value} CFA` 
+      } 
+    },
     grid: {
       show: false,
       padding: {
@@ -104,12 +116,6 @@ const chartOptions = computed(() => {
       },
     },
   };
-});
-
-// Fetch daily revenues on component mount
-onMounted(() => {
-  store.dispatch('transactions/fetchDailyRevenues');
-  // store.dispatch('transactions/fetchDailyRevenues');
 });
 </script>
 

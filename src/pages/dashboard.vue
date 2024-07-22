@@ -1,12 +1,8 @@
 <script setup>
 // liste des composants affichés sur le dashboard
-import AnalyticsCongratulations from '@/views/dashboard/AnalyticsCongratulations.vue'
-import AnalyticsFinanceTabs from '@/views/dashboard/AnalyticsFinanceTab.vue'
-// import AnalyticsOrderStatistics from '@/views/dashboard/AnalyticsOrderStatistics.vue'
-// import AnalyticsProfitReport from '@/views/dashboard/AnalyticsProfitReport.vue'
-import AnalyticsTotalRevenue from '@/views/dashboard/AnalyticsTotalRevenue.vue'
-// import AnalyticsTransactions from '@/views/dashboard/AnalyticsTransactions.vue'
-
+import Welcome from '@/pages/auth/welcom.vue'
+// import Revenu from '@/pages/transactions/Graphes.vue'
+import Revenu from '@/pages/transactions/Revenue.vue'
 
 // myImages
 import userIcon from '@images/myImages/user.png'
@@ -37,30 +33,23 @@ const subscriptionCount = computed(() => store.getters['subscriptions/subscripti
 <template>
   <VRow>
     <!-- 👉 Congratulations -->
-    <VCol
-      cols="12"
-      md="8"
-    >  
+    <VCol cols="12" md="8">  
     <!-- <p>Users: {{userCount}}</p>,  <p>Transactions: {{transactionCount}}</p> -->
     <!-- <p>Tickets: {{ticketCount}}</p> -->
     <!-- <p>Subscriptions: {{subscriptionCount}}</p> -->
-      <AnalyticsCongratulations />
+      <Welcome />
     </VCol>
 
-    <VCol
-      cols="12"
-      sm="4"
-    >
+    <VCol cols="12" sm="4">
       <VRow>
         <!-- 👉 Users -->
-    <VCol cols="12" md="6">
-    <CardStatisticsVertical
+      <VCol cols="12" md="6">
+      <CardStatisticsVertical
       :title="'Utilisateurs'"
       :image="userIcon"
       :change="userCount%100"
       :stats="userCount"
       :to="{ name: 'userManagement'}"
-      
     />
   </VCol>
   <!-- 👉 Tickets -->
@@ -73,18 +62,13 @@ const subscriptionCount = computed(() => store.getters['subscriptions/subscripti
       :to="{ name: 'typeTicketsManagement' }"
     />
   </VCol>
-      </VRow>
+</VRow>
     </VCol>
 
     <!-- 👉 Total Revenue -->
-    <VCol
-      cols="12"
-      md="8"
-      order="2"
-      order-md="1"
-    >
-      <AnalyticsTotalRevenue />
-      
+    <VCol cols="12" md="8" order="2" order-md="1" >
+      <!-- <AnalyticsTotalRevenue /> -->
+      <Revenu />
     </VCol>
 
     <VCol
@@ -108,7 +92,7 @@ const subscriptionCount = computed(() => store.getters['subscriptions/subscripti
 
      
   <!-- 👉 Transactions -->
-  <VCol cols="12" md="6">
+  <VCol cols="12" sm="6">
     <CardStatisticsVertical
       :title="'Transactions'"
       :image="transactionIcon"

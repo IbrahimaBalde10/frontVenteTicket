@@ -3,6 +3,7 @@
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -34,39 +35,53 @@ const updateUser = async () => {
   <div>
     <h1>Edit User</h1>
     <form @submit.prevent="updateUser" class="edit-user-form">
-      <div class="form-group">
-        <label for="nom">Nom</label>
-        <input type="text" id="nom" v-model="user.nom" required />
-      </div>
-      <div class="form-group">
-        <label for="prenom">Prenom</label>
-        <input type="text" id="prenom" v-model="user.prenom" required />
-      </div>
-      <div class="form-group">
-        <label for="telephone">Telephone</label>
-        <input type="text" id="telephone" v-model="user.telephone" required />
-      </div>
-      <div class="form-group">
-        <label for="role">Role</label>
-        <select id="role" v-model="user.role" required>
-          <option value="Admin">Admin</option>
-          <option value="Comptable">Comptable</option>
-          <option value="Client">Client</option>
-          <option value="Vendeur">Vendeur</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" v-model="user.email" required />
-      </div>
-      <button type="submit" class="submit-button">Update User</button>
+      <VRow>
+        <VCol cols="6">
+          <div class="form-group">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" v-model="user.nom" required />
+          </div>
+        </VCol>
+        <VCol cols="6">
+          <div class="form-group">
+            <label for="prenom">Prenom</label>
+            <input type="text" id="prenom" v-model="user.prenom" required />
+          </div>
+        </VCol>
+        <VCol cols="6">
+          <div class="form-group">
+            <label for="telephone">Telephone</label>
+            <input type="text" id="telephone" v-model="user.telephone" required />
+          </div>
+        </VCol>
+        <VCol cols="6">
+          <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role" v-model="user.role" required>
+              <option value="Admin">Admin</option>
+              <option value="Comptable">Comptable</option>
+              <option value="Client">Client</option>
+              <option value="Vendeur">Vendeur</option>
+            </select>
+          </div>
+        </VCol>
+        <VCol cols="6">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" v-model="user.email" required />
+          </div>
+        </VCol>
+        <VCol cols="12">
+          <button type="submit" class="submit-button">Update User</button>
+        </VCol>
+      </VRow>
     </form>
   </div>
 </template>
 
 <style scoped>
 .edit-user-form {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   background: #f9f9f9;
@@ -107,4 +122,3 @@ const updateUser = async () => {
   background: #0056b3;
 }
 </style>
-// 
