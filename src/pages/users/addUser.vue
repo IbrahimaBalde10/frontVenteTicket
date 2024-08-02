@@ -1,8 +1,10 @@
 <template>
-  <div class="auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard class="auth-card pa-4 pt-7" max-width="700">
+  <!-- <div class="auth-wrapper d-flex align-center justify-center pa-6"> -->
+  <VRow>
+    <VCol cols="12">
+    <VCard class="auth-card pa-8 pt-7" gap-5 max-width="1100">
       <VCardTitle class="text-2xl font-weight-bold">
-        Add User
+        Ajouter un utilisateur
       </VCardTitle>
 
       <VCardText>
@@ -68,19 +70,40 @@
               />
             </VCol>
             <VCol cols="12">
-              <VBtn block type="submit" color="primary">Add User</VBtn>
+              <VRow>
+                <VCol cols="6">
+                  <VBtn block type="submit" color="primary">Ajouter un utilisateur</VBtn>
+                </VCol>
+                <VCol cols="6">
+                  <VBtn block @click="() => router.push('/userManagement')" color="error">Annuler</VBtn>
+                </VCol>
+              </VRow>
             </VCol>
           </VRow>
         </VForm>
       </VCardText>
+
+      <VSnackbar
+          v-model="snackbar.show"
+          :color="snackbar.color"
+          :timeout="snackbar.timeout"
+        >
+          {{ snackbar.message }}
+        </VSnackbar>
+        
     </VCard>
-  </div>
+    </VCol>
+  </VRow>
+  <!-- </div> -->
 </template>
 
 <script setup>
-import { ref } from 'vue';
+// import { ref } from 'vue';
+// import { useStore } from 'vuex';
+// import { useRouter } from 'vue-router';
+import { ref, onMounted, nextTick } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
 
 const store = useStore();
@@ -98,6 +121,14 @@ const errors = ref({
   role: '',
   email: '',
   password: ''
+});
+
+// 
+const snackbar = ref({
+  show: false,
+  message: '',
+  color: 'success',
+  timeout: 3000
 });
 
 const validateForm = () => {
@@ -153,6 +184,33 @@ const validateForm = () => {
 
   return isValid;
 };
+/**
+ * const updateUser = async () => {
+  if (!validateForm()) {
+    return;
+  }
+
+  try {
+    await store.dispatch('users/updateUser', user.value);
+    snackbar.value.message = 'Utilisateur modifié avec succès';
+    snackbar.value.color = 'success';
+    snackbar.value.show = true;
+    console.log(snackbar.value); // Debugging line
+
+    await nextTick();
+    setTimeout(() => {
+      snackbar.value.show = false;
+      router.push({ name: 'userManagement' });
+    }, snackbar.value.timeout);
+  } catch (error) {
+    // console.error('Error updating user:', error);
+    snackbar.value.message = 'Erreur lors de la modification de l\'utilisateur';
+    snackbar.value.color = 'error';
+    snackbar.value.show = true;
+    console.log(snackbar.value); // Debugging line
+  }
+};
+ */
 
 const addUser = async () => {
   if (!validateForm()) {
@@ -161,11 +219,33 @@ const addUser = async () => {
 
   try {
     await store.dispatch('users/addUser', newUser.value);
-    router.push({ name: 'userManagement' });
-  } catch (error) {
-    console.error('Error adding user:', error);
+// 
+ snackbar.value.message = 'Utilisateur ajouté avec succès';
+    snackbar.value.color = 'success';
+    snackbar.value.show = true;
+    console.log(snackbar.value); // Debugging line
+
+    await nextTick();
+    setTimeout(() => {
+      snackbar.value.show = false;
+      router.push({ name: 'userManagement' });
+    }, snackbar.value.timeout);
+// 
+    // router.push({ name: 'userManagement' });
+//   } catch (error) {
+//     console.error('Error adding user:', error);
+//   }
+// };
+}catch (error) {
+    // console.error('Error updating user:', error);
+    snackbar.value.message = 'Erreur lors de l\'ajout de l\'utilisateur';
+    snackbar.value.color = 'error';
+    snackbar.value.show = true;
+    console.log(snackbar.value); // Debugging line
   }
 };
+
+// const annuler = async () => { router.push({ name: 'userManagement' });}
 </script>
 
 <style scoped>

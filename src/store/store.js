@@ -49,6 +49,10 @@ export default createStore({
           commit("SET_LOGIN_ERROR", "Accès non autorisé. Vous devez être admin ou comptable.");
           throw new Error("Unauthorized access");
         }
+         if (userData.user.status !== 'active') {
+          commit("SET_LOGIN_ERROR", "Ce compte est inactif.");
+          throw new Error("Unauthorized access");
+        }
 
         commit("LOGIN", userData);
       } catch (error) {

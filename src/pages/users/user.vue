@@ -6,15 +6,17 @@ import AdminManagement from '../users/rolesTypes/AdminManagement.vue';
 import ComptableManagement from '../users/rolesTypes/ComptableManagement.vue'
 import VendeurManagement from '../users/rolesTypes/VendeurManagement.vue';
 import ClientManagement from '../users/rolesTypes/ClientManagement.vue'
+import ActiveManagement from './rolesTypes/ActiveManagement.vue'
+import DesactiveManagement from './rolesTypes/DesactiveManagement.vue'
 
 
 const route = useRoute()
 const activeTab = ref(route.params.tab)
 
-// Définition des onglets
+// Définition des onglets 
 const tabs = [
   {
-    title: 'Users',
+    title: 'Utilisateurs',
     icon: 'bx-user',
     tab: 'userManagement',
   },
@@ -37,6 +39,16 @@ const tabs = [
     title: 'Clients',
     icon: 'bx-user',
     tab: 'clientManagement',
+  },
+    {
+    title: 'Actifs',
+    icon: 'bx-user',
+    tab: 'activeManagement',
+  },
+    {
+    title: 'Inactifs',
+    icon: 'bx-user',
+    tab: 'desactiveManagement',
   },
 ]
 </script>
@@ -89,6 +101,16 @@ const tabs = [
        <!-- ClientManagement -->
       <VWindowItem value="clientManagement">
         <ClientManagement />
+      </VWindowItem>
+
+        <!-- ActiveManagement -->
+      <VWindowItem value="activeManagement">
+        <ActiveManagement />
+      </VWindowItem>
+
+       <!-- DesactiveManagement -->
+      <VWindowItem value="desactiveManagement">
+        <DesactiveManagement />
       </VWindowItem>
     </VWindow>
   </div>

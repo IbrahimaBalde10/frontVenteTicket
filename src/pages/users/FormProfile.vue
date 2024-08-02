@@ -170,10 +170,12 @@
             :disabled="!isAccountDeactivated"
             color="error"
             class="mt-3"
-            @click="deactivateAccount"
+           
+             @click="desactiveUser"
           >
             Désactiver le compte
           </VBtn>
+          <!--  @click="deactivateAccount" -->
         </VCardText>
       </VCard>
     </VCol>
@@ -234,23 +236,70 @@ const saveChanges = async () => {
   }
 }
 
-const deactivateAccount = async () => {
-  try {
-    await store.dispatch('users/deleteUser', accountDataLocal.value.id)
-    router.push('/login')
-  } catch (error) {
-    console.error('Failed to deactivate account:', error)
-  }
-}
+// const deactivateAccount = async (userId) => {
+//   try {
+//     await store.dispatch('users/deactivateUser', accountDataLocal.value.id)
+//     router.push('/login')
+//   } catch (error) {
+//     console.error('Failed to deactivate account:', error)
+//   }
+// }
+// const desactiveUser = async (userId) => {
+  // try {
+    // await store.dispatch('users/deactivateUser', userId);
+
+    // const handleLogout = () => {
+  // store.dispatch('logout');
+// }
+// const desactiveUser = async () => {
+//   try {
+//     const userId = accountDataLocal.value.id;
+//     console.log("User ID:", userId); // Utilisez console.log pour le débogage
+//     alert(userId); // Vérifiez la valeur avec une alerte
+//     await store.dispatch('users/deactivateUser', userId);
+//     await store.dispatch('users/fetchCurrentUser'); // Rafraîchissez les données de l'utilisateur
+//     store.dispatch('logout');
+//     // router.push('/login');
+//   } catch (error) {
+//     console.error('Error deactivating user:', error);
+//   }
+// }
 
 onMounted(async () => {
   try {
+        // const userData = await store.dispatch('users/fetchCurrentUser');
+
     const userData = await store.dispatch('users/fetchCurrentUser')
     accountDataLocal.value = { ...userData }
   } catch (error) {
     console.error('Failed to fetch current user:', error)
   }
 })
+
+const desactiveUser = async () => {
+  try {
+    const userId = accountDataLocal.value.id;
+    console.log("User ID:", userId); // Vérifiez que vous obtenez l'ID utilisateur
+    alert(userId); // Vérifiez l'ID avec une alerte
+
+    await store.dispatch('users/deactivateUser', userId);
+    console.log('User deactivated successfully');
+
+    await store.dispatch('users/fetchCurrentUser'); // Rafraîchissez les données utilisateur
+    console.log('Current user data refreshed');
+
+    await store.dispatch('logout'); // Déconnexion
+    console.log('User logged out');
+
+    // Assurez-vous que la redirection est effectuée
+    router.push('/login').catch(err => {
+      console.error('Router push error:', err);
+    });
+  } catch (error) {
+    console.error('Error deactivating user:', error);
+  }
+};
+
 </script>
 
 <style scoped>
