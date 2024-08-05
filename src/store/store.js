@@ -3,11 +3,12 @@ import router from "../router/index.js";
 import axios from "../axios.js";
 
 import users from './modules/userModule.js';
-import typeTickets from './modules/typeTicketModule.js';
+// import typeTickets from './modules/typeTicketModule.js';
 import typeSubscriptions from './modules/typeSubscriptionModule.js';
 import transactions from './modules/transactionModule.js';
 import tickets from './modules/ticketModule.js';
 import subscriptions from './modules/subscriptionModule.js';
+import trajets from './modules/trajetModule.js';
 
 export default createStore({
   state: {
@@ -112,10 +113,11 @@ export default createStore({
 
   modules: {
     users,
-    typeTickets,
+    // typeTickets,
     typeSubscriptions,
     transactions,
     tickets,
     subscriptions,
+    trajets,
   },
 });

@@ -4,7 +4,12 @@ import router from '@/router';
 
 const state = {
   users: [],
-  meta: {}
+  // total: 0,  // Total des utilisateurs
+  // perPage: 10, // Nombre d'utilisateurs par page
+  // currentPage: 1 // Page actuelle
+  total: 0,
+  perPage: 10,
+  currentPage: 1
 };
  
 
@@ -12,76 +17,70 @@ const getters = {
   allUsers: (state) => state.users,
   getUserById: (state) => (id) => state.users.find(user => user.id === id),
   userCount: state => state.users.length, //compter les users
-   meta(state) {
-    return state.meta;
-  }
-
+  // 
+  // allUsers: (state) => state.users,
+  totalUsers: (state) => state.total,
+  perPage: (state) => state.perPage,
+  currentPage: (state) => state.currentPage
+  // 
 };
 
 const actions = {
-  async fetchUsers({ commit }) {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('No token found');
-      }
+  // async fetchUsers({ commit }) {
+    // try {
+    //   const token = localStorage.getItem('token');
+    //   if (!token) {
+    //     throw new Error('No token found');
+    //   }
 
-      const response = await axios.get('http://localhost:8000/api/users', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    //   const response = await axios.get('http://localhost:8000/api/users', {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   });
      
-      commit('setUsers', response.data);
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 403) {
-          console.error('Forbidden: You do not have the right permissions to access this resource.');
-        } else if (error.response.status === 401) {
-          console.error('Unauthorized: Invalid or expired token.');
-          router.push({ name: 'login' });
-        } else {
-          console.error(`Error ${error.response.status}: ${error.response.data.message}`);
-        }
-      } else {
-        console.error('Failed to fetch users:', error);
-      }
-    }
-  }
-  ,
-  // async fetchUsers({ commit }, { page = 1, perPage = 5 } = {}) {
-  //   try {
-  //     const token = localStorage.getItem('token');
-  //     if (!token) {
-  //       throw new Error('No token found');
-  //     }
-
-  //     const response = await axios.get(`/api/users?page=${page}&per_page=${perPage}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     commit('setUsers', response.data.data);
-  //     commit('setMeta', response.data.meta);
+  //     commit('setUsers', response.data);
   //   } catch (error) {
   //     if (error.response) {
-  //       console.error('Error Response:', error.response);
   //       if (error.response.status === 403) {
   //         console.error('Forbidden: You do not have the right permissions to access this resource.');
   //       } else if (error.response.status === 401) {
   //         console.error('Unauthorized: Invalid or expired token.');
   //         router.push({ name: 'login' });
   //       } else {
-  //         console.error(`Error ${error.response.status}: ${error.response.data.message || 'Unknown error'}`);
+  //         console.error(`Error ${error.response.status}: ${error.response.data.message}`);
   //       }
-  //     } else if (error.request) {
-  //       console.error('No response received:', error.request);
   //     } else {
-  //       console.error('Error setting up request:', error.message);
+  //       console.error('Failed to fetch users:', error);
   //     }
   //   }
-  // },
+  // }
+
+async fetchUsers({ commit }, { page = 1, perPage = 10 } = {}) {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No token found');
+      }
+      
+      const response = await axios.get('http://localhost:8000/api/users', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          page,
+          perPage
+        }
+      });
+      
+      commit('SET_USERS', response.data.data); // Assurez-vous de gérer la structure des données renvoyées
+      commit('SET_TOTAL', response.data.total); // Total des utilisateurs (pour pagination)
+      commit('SET_PER_PAGE', response.data.per_page); // Nombre d'utilisateurs par page
+      commit('SET_CURRENT_PAGE', page); // Mettre à jour la page actuelle
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  },
   // recuperation du user connecté
 async fetchCurrentUser({ commit }) {
   try {
@@ -151,6 +150,7 @@ async fetchCurrentUser({ commit }) {
       throw error;
     }
   },
+
 // modifier un user quelconque
   async updateUser({ commit }, user) {
     try {
@@ -170,6 +170,7 @@ async fetchCurrentUser({ commit }) {
       throw error;
     }
   },
+  
 // modifier mon profil
  async updateMyProfil({ commit }, user) {
     try {
@@ -277,6 +278,22 @@ const mutations = {
   //  SET_USERS(state, users) {
   //   state.users = users;
   // },
+
+  // 
+ SET_USERS(state, users) {
+    state.users = users;
+  },
+  SET_TOTAL(state, total) {
+    state.total = total;
+  },
+  SET_PER_PAGE(state, perPage) {
+    state.perPage = perPage;
+  },
+  SET_CURRENT_PAGE(state, page) {
+    state.currentPage = page;
+  }
+   //
+   , 
   addUser(state, user) {
     state.users.push(user);
   },

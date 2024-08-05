@@ -8,12 +8,12 @@
           </VCard>
         </VCol>
         <VCol cols="3">
-          <VBtn title="Ajouter un utilisateur" type="" color="primary" @click="() => router.push('/addUser')">
+          <VBtn title="Ajouter un utilisateur" color="primary" @click="() => router.push('/addUser')">
             Ajouter un utilisateur
           </VBtn>
         </VCol>
       </VRow>
-      <VCard title="">
+      <VCard>
         <VCardText>
           <VTable>
             <thead>
@@ -45,7 +45,12 @@
               </tr>
             </tbody>
           </VTable>
-          <VPagination v-model:page="currentPage" :length="totalPages" :total-visible="3" />
+          <VPagination
+            v-model:page="currentPage"
+            :length="totalPages"
+            :total-visible="3"
+            @update:page="(page) => store.dispatch('users/fetchUsers', { page, perPage: store.getters.perPage })"
+          />
         </VCardText>
       </VCard>
     </VCol>
@@ -65,7 +70,7 @@
       <VCardActions>
         <VSpacer />
         <VBtn @click="deleteUser" color="error">Supprimer</VBtn>
-        <VBtn @click="dialog.show = false">Annuler</VBtn>
+        <VBtn @click="() => dialog.show = false">Annuler</VBtn>
       </VCardActions>
     </VCard>
   </VDialog>
@@ -80,7 +85,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import UserDetail from './userShow.vue';
+import UserDetail from './UserShow.vue'; // Assurez-vous que le chemin est correct
 
 const store = useStore();
 const router = useRouter();
@@ -100,23 +105,19 @@ const dialog = ref({
 const showUserDetailDialog = ref(false);
 const selectedUserId = ref(null);
 
+const currentPage = ref(1);
+
 onMounted(() => {
-  store.dispatch('users/fetchUsers');
+  store.dispatch('users/fetchUsers', { page: currentPage.value, perPage: 5 });
 });
 
 const allUsers = computed(() => store.getters['users/allUsers']);
-
-const currentPage = ref(1);
-const itemsPerPage = 10;
+const totalPages = computed(() => Math.ceil(store.getters['users/totalUsers'] / store.getters['users/perPage']));
 
 const paginatedUsers = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
+  const start = (currentPage.value - 1) * store.getters['users/perPage'];
+  const end = start + store.getters['users/perPage'];
   return allUsers.value.slice(start, end);
-});
-
-const totalPages = computed(() => {
-  return Math.ceil(allUsers.value.length / itemsPerPage);
 });
 
 const showUserDetails = (userId) => {
@@ -138,7 +139,7 @@ const confirmDelete = (userId) => {
 const deleteUser = async () => {
   try {
     await store.dispatch('users/deleteUser', dialog.value.userId);
-    store.dispatch('users/fetchUsers');
+    store.dispatch('users/fetchUsers', { page: currentPage.value, perPage: store.getters['users/perPage'] });
     snackbar.value = {
       show: true,
       text: 'Utilisateur supprimé avec succès',

@@ -124,23 +124,33 @@ const user = computed(() => store.getters.getUser);
           to: '/userManagement',
         }"
       />
+       <!-- fin  get all users--> 
+
+        <!-- Gestion des trajets -->
+       <VerticalNavLink
+        :item="{
+          title: 'Trajets',
+          icon: 'bx-user-plus',
+          to: '/trajetManagement',
+        }"
+      />
       <!-- fin  get all users-->
         <!-- Gestion des Tickets -->
-        <VerticalNavLink
+        <!-- <VerticalNavLink
         :item="{
           title: 'Tickets',
           icon: 'bx-user-plus',
           to: '/typeTicketsManagement',
         }"
-      />
+      /> -->
       <!--  Gestion des subscriptions -->
-        <VerticalNavLink
+        <!-- <VerticalNavLink
         :item="{
           title: 'Subscriptions',
           icon: 'bx-user-plus',
           to: '/typeSubscriptionsManagement',
         }"
-      />
+      /> -->
        <!--  Gestion des Transactions -->
         <VerticalNavLink
         :item="{

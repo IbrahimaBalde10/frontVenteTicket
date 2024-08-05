@@ -117,6 +117,28 @@ const router = createRouter({
           meta: { requiresAuth: true } ,
           name: 'graphesTransaction'
         },
+        // gestions des trajetsManagement
+
+         { 
+          path: 'trajetManagement',
+          component: () => import('../pages/trajets/trajet.vue'),
+          meta: { requiresAuth: true } ,
+          name: 'trajetManagement'  
+        },
+        {
+          path: 'addTrajet',
+          component: () => import('../pages/trajets/addTrajet.vue'),
+        },
+        {
+          path: 'trajet/:id/show',
+          name: 'trajet-show',
+          component: () => import('../pages/trajets/Trajet_Show.vue'), // Create this component
+        },
+        {
+          path: 'trajet/:id/edit',
+          name: 'trajet-edit',
+          component: () => import('../pages/trajets/trajetEdit.vue'), // Create this component
+        },
       ],
       
     },
