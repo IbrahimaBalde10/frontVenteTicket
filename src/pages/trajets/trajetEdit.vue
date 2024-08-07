@@ -3,80 +3,90 @@
     <VCol cols="12">
       <VCard class="auth-card pa-8" max-width="1100">
         <VCardTitle class="text-2xl font-weight-bold">
-          Modifier un utilisateur
+          Modifier un trajet
         </VCardTitle>
 
         <VCardText>
-          <VForm @submit.prevent="updateUser">
+          <VForm @submit.prevent="updateTrajet">
             <VRow>
+              <!-- Point de départ -->
               <VCol cols="12" sm="6">
                 <VTextField
-                  v-model="user.nom"
-                  label="Nom"
-                  placeholder="Enter user's last name"
-                  :error-messages="errors.nom"
-                  required
-                />
-              </VCol>
-              <VCol cols="12" sm="6">
-                <VTextField
-                  v-model="user.prenom"
-                  label="Prenom"
-                  placeholder="Enter user's first name"
-                  :error-messages="errors.prenom"
-                  required
-                />
-              </VCol>
-              <VCol cols="12" sm="6">
-                <VTextField
-                  v-model="user.telephone"
-                  label="Telephone"
-                  placeholder="Enter user's phone number"
-                  :error-messages="errors.telephone"
+                  v-model="trajet.point_depart"
+                  label="Point de départ"
+                  placeholder="Enter departure point"
+                  :error-messages="errors.point_depart"
                   required
                 />
               </VCol>
 
+              <!-- Point d'arrivée -->
               <VCol cols="12" sm="6">
                 <VTextField
-                  v-model="user.email"
-                  label="Email"
-                  placeholder="Enter user's email"
-                  :error-messages="errors.email"
-                  type="email"
-                  required
-                />
-              </VCol>
-              
-              <VCol cols="12" sm="6">
-                <VSelect
-                  v-model="user.role"
-                  :items="roles"
-                  label="Role"
-                  placeholder="Select role"
-                  :error-messages="errors.role"
+                  v-model="trajet.point_arrivee"
+                  label="Point d'arrivée"
+                  placeholder="Enter arrival point"
+                  :error-messages="errors.point_arrivee"
                   required
                 />
               </VCol>
 
+              <!-- Prix -->
               <VCol cols="12" sm="6">
-                <VSelect
-                  v-model="user.status"
-                  :items="statuses"
-                  label="Status"
-                  placeholder="Select status"
-                  :error-messages="errors.status"
+                <VTextField
+                  v-model="trajet.prix"
+                  label="Prix"
+                  placeholder="Enter price"
+                  :error-messages="errors.prix"
+                  type="number"
                   required
                 />
               </VCol>
-              
+
+              <!-- Statut -->
+              <VCol cols="12" sm="6">
+                <VSelect
+                  v-model="trajet.statut"
+                  :items="statutes"
+                  label="Statut"
+                  placeholder="Select statut"
+                  :error-messages="errors.statut"
+                  required
+                />
+              </VCol>
+
+              <!-- Description -->
+              <VCol cols="12">
+                <VTextField
+                  v-model="trajet.description"
+                  label="Description (optionnelle)"
+                  placeholder="Entrez la description"
+                  :error-messages="errors.description"
+                  rows="6"
+                  multi-line
+                />
+              </VCol>
+
+              <!-- Navigation vers la modification des dates de départ -->
+              <!-- <VCol cols="12" sm="6">
+                <VBtn @click="navigateTo('dateDepartManagement')" color="primary">Gestion Dates de Départ</VBtn>
+              </VCol> -->
+              <VCol cols="12" sm="6">
+                <VBtn @click="navigateToDateDepartManagement(trajet.id)" color="primary">Gestion Dates de Départ</VBtn>
+              </VCol>
+              <!-- Navigation vers la modification des heures de départ -->
+              <VCol cols="12" sm="6">
+                <VBtn @click="navigateTo('heureDepartManagement')" color="primary">Gestion Heures de Départ</VBtn>
+              </VCol>
+
+              <!-- Boutons de soumission -->
               <VCol cols="12">
                 <VRow>
                   <VCol cols="6">
                     <VBtn block type="submit" color="primary">Modifier</VBtn>
                   </VCol>
                   <VCol cols="6">
-                    <VBtn block @click="() => router.push('/userManagement')" color="error">Cancel</VBtn>
+                    <VBtn block @click="() => router.push('/trajetManagement')" color="error">Annuler</VBtn>
                   </VCol>
                 </VRow>
               </VCol>
@@ -84,6 +94,7 @@
           </VForm>
         </VCardText>
 
+        <!-- Snackbar pour les messages -->
         <VSnackbar
           v-model="snackbar.show"
           :color="snackbar.color"
@@ -97,7 +108,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -105,17 +116,21 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const user = ref({ id: '', nom: '', prenom: '', telephone: '', role: '', status: '', email: '' });
-const roles = ['Admin', 'Comptable', 'Client', 'Vendeur'];
-const statuses = ['active', 'desactive'];
+const trajet = ref({
+  id: '',
+  point_depart: '',
+  point_arrivee: '',
+  prix: '',
+  description: '',
+  statut: '', // Ajout du champ statut
+});
 
 const errors = ref({
-  nom: '',
-  prenom: '',
-  telephone: '',
-  role: '',
-  status: '',
-  email: ''
+  point_depart: '',
+  point_arrivee: '',
+  prix: '',
+  description: '',
+  statut: '', // Ajout du champ statut
 });
 
 const snackbar = ref({
@@ -125,98 +140,89 @@ const snackbar = ref({
   timeout: 3000
 });
 
+const statutes = ['actif', 'inactif']; // Définir les statuts disponibles
+
 onMounted(async () => {
-  const userId = route.params.id;
-  try {
-    const fetchedUser = await store.dispatch('users/fetchUserById', userId);
-    user.value = fetchedUser;
-  } catch (error) {
-    console.error('Error fetching user:', error);
+  const trajetId = route.params.id;
+
+  if (trajetId) {
+    try {
+      const fetchedTrajet = await store.dispatch('trajets/fetchTrajetById', trajetId);
+      trajet.value = fetchedTrajet;
+    } catch (error) {
+      console.error('Error fetching trajet:', error);
+    }
   }
 });
 
 const validateForm = () => {
   let isValid = true;
 
-  if (!user.value.nom) {
-    errors.value.nom = 'Nom is required';
+  if (!trajet.value.point_depart) {
+    errors.value.point_depart = 'Point de départ est requis';
     isValid = false;
   } else {
-    errors.value.nom = '';
+    errors.value.point_depart = '';
   }
 
-  if (!user.value.prenom) {
-    errors.value.prenom = 'Prenom is required';
+  if (!trajet.value.point_arrivee) {
+    errors.value.point_arrivee = 'Point d\'arrivée est requis';
     isValid = false;
   } else {
-    errors.value.prenom = '';
+    errors.value.point_arrivee = '';
   }
 
-  if (!user.value.telephone) {
-    errors.value.telephone = 'Telephone is required';
+  if (!trajet.value.prix) {
+    errors.value.prix = 'Prix est requis';
     isValid = false;
   } else {
-    errors.value.telephone = '';
+    errors.value.prix = '';
   }
 
-  if (!user.value.role) {
-    errors.value.role = 'Role is required';
+  if (!trajet.value.statut) {
+    errors.value.statut = 'Statut est requis';
     isValid = false;
   } else {
-    errors.value.role = '';
-  }
-
-  if (!user.value.status) {
-    errors.value.status = 'Status is required';
-    isValid = false;
-  } else {
-    errors.value.status = '';
-  }
-
-  if (!user.value.email) {
-    errors.value.email = 'Email is required';
-    isValid = false;
-  } else if (!/\S+@\S+\.\S+/.test(user.value.email)) {
-    errors.value.email = 'Email is invalid';
-    isValid = false;
-  } else {
-    errors.value.email = '';
+    errors.value.statut = '';
   }
 
   return isValid;
 };
 
-const updateUser = async () => {
-  if (!validateForm()) {
-    return;
-  }
-
-  try {
-    await store.dispatch('users/updateUser', user.value);
-    snackbar.value.message = 'Utilisateur modifié avec succès';
+const updateTrajet = async () => {
+  if (validateForm()) {
+    try {
+      await store.dispatch('trajets/updateTrajet', trajet.value);
+  snackbar.value.message = 'Trajet modifier avec succès';
     snackbar.value.color = 'success';
     snackbar.value.show = true;
-    console.log(snackbar.value); // Debugging line
 
     await nextTick();
     setTimeout(() => {
       snackbar.value.show = false;
-      router.push({ name: 'userManagement' });
+      router.push({ name: 'trajetManagement' });
     }, snackbar.value.timeout);
   } catch (error) {
-    // console.error('Error updating user:', error);
-    snackbar.value.message = 'Erreur lors de la modification de l\'utilisateur';
+    snackbar.value.message = 'Erreur lors de la modificatio du trajet';
     snackbar.value.color = 'error';
     snackbar.value.show = true;
-    console.log(snackbar.value); // Debugging line
   }
+  }
+};
+
+const navigateTo = (section) => {
+  const trajetId = route.params.id;
+  router.push(`/trajets/${trajetId}/${section}`);
+};
+
+const navigateToDateDepartManagement = (trajetId) => {
+  router.push({ name: 'dateDepartManagement', params: { id: trajetId } });
 };
 </script>
 
 <style scoped>
 .auth-card {
-  padding: 24px;
-  padding-top: 28px;
-  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
 }
 </style>

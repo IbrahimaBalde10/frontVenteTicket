@@ -1,129 +1,153 @@
 <template>
-  <!-- <div class="auth-wrapper d-flex align-center justify-center pa-6"> -->
   <VRow>
     <VCol cols="12">
-    <VCard class="auth-card pa-8 pt-7" gap-5 max-width="1100">
-      <VCardTitle class="text-2xl font-weight-bold">
-        Ajouter un utilisateur
-      </VCardTitle>
+      <VCard class="auth-card pa-8 pt-7" gap-5 max-width="1100">
+        <VCardTitle class="text-2xl font-weight-bold">
+          Ajouter un trajet
+        </VCardTitle>
 
-      <VCardText>
-        <VForm @submit.prevent="addUser">
-          <VRow>
-            <VCol cols="12" sm="6">
-              <VTextField 
-                v-model="newUser.nom" 
-                label="Nom" 
-                placeholder="Enter user's last name" 
-                :error-messages="errors.nom" 
-                required
-              />
-            </VCol>
-            <VCol cols="12" sm="6">
-              <VTextField 
-                v-model="newUser.prenom" 
-                label="Prenom" 
-                placeholder="Enter user's first name" 
-                :error-messages="errors.prenom" 
-                required
-              />
-            </VCol>
-            <VCol cols="12" sm="6">
-              <VTextField 
-                v-model="newUser.telephone" 
-                label="Telephone" 
-                placeholder="Enter user's phone number" 
-                :error-messages="errors.telephone" 
-                required
-              />
-            </VCol>
-            <VCol cols="12" sm="6">
-              <VSelect 
-                v-model="newUser.role" 
-                :items="roles" 
-                label="Role" 
-                placeholder="Select role" 
-                :error-messages="errors.role" 
-                required
-              />
-            </VCol>
-            <VCol cols="12" sm="6">
-              <VTextField 
-                v-model="newUser.email" 
-                label="Email" 
-                placeholder="Enter user's email" 
-                :error-messages="errors.email" 
-                type="email" 
-                required
-              />
-            </VCol>
-            <VCol cols="12" sm="6">
-              <VTextField 
-                v-model="newUser.password" 
-                label="Password" 
-                placeholder="Enter user's password" 
-                :type="isPasswordVisible ? 'text' : 'password'" 
-                :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'" 
-                @click:append-inner="isPasswordVisible = !isPasswordVisible" 
-                :error-messages="errors.password" 
-                required
-              />
-            </VCol>
-            <VCol cols="12">
-              <VRow>
-                <VCol cols="6">
-                  <VBtn block type="submit" color="primary">Ajouter un utilisateur</VBtn>
-                </VCol>
-                <VCol cols="6">
-                  <VBtn block @click="() => router.push('/userManagement')" color="error">Annuler</VBtn>
-                </VCol>
-              </VRow>
-            </VCol>
-          </VRow>
-        </VForm>
-      </VCardText>
+        <VCardText>
+          <VForm @submit.prevent="addTrajet">
+            <VRow>
+              <VCol cols="12" sm="6">
+                <VTextField 
+                  v-model="newTrajet.point_depart" 
+                  label="Point de départ" 
+                  placeholder="Enter point de départ" 
+                  :error-messages="errors.point_depart" 
+                  required
+                />
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VTextField 
+                  v-model="newTrajet.point_arrivee" 
+                  label="Point d'arrivée" 
+                  placeholder="Enter point d'arrivée" 
+                  :error-messages="errors.point_arrivee" 
+                  required
+                />
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VTextField 
+                  v-model="newTrajet.prix" 
+                  label="Prix" 
+                  placeholder="Enter prix" 
+                  :error-messages="errors.prix" 
+                  type="number"
+                  required
+                />
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VSelect 
+                  v-model="newTrajet.statut" 
+                  :items="statusOptions" 
+                  label="Statut" 
+                  placeholder="Select statut" 
+                  :error-messages="errors.statut" 
+                  required
+                />
+              </VCol>
 
-      <VSnackbar
+              <VCol cols="12">
+                <VTextField 
+                  v-model="newTrajet.description" 
+                  label="Description" 
+                  placeholder="Entrer une description" 
+                  :error-messages="errors.description" 
+                />
+              </VCol>
+
+              <VCol cols="12">
+                <VRow>
+                  <VCol cols="6">
+                    <VTextField
+                      v-model="dateDepart"
+                      type="date"
+                      label="Date de départ"
+                      placeholder="Enter une date de départ au format: YYYY-MM-DD"
+                      :error-messages="errors.dates_de_depart"
+                      @keyup.enter="addDateHeure"
+                    />
+                  </VCol>
+                  <VCol cols="6">
+                    <VTextField
+                      v-model="heureDepart"
+                      type="time"
+                      label="Heure de départ"
+                      placeholder="Enter une heure de départ au format: HH:mm"
+                      :error-messages="errors.heures_de_depart"
+                      @keyup.enter="addDateHeure"
+                    />
+                  </VCol>
+                </VRow>
+                <br>
+                <VBtn @click="addDateHeure" color="primary">Ajouter date et heure</VBtn>
+              </VCol>
+
+              <VCol cols="12">
+                <div v-for="(date, index) in newTrajet.dates_de_depart" :key="index">
+                  Date de départ: {{ date }} - Heure de départ: {{ newTrajet.heures_de_depart[index] }}
+                  <VBtn @click="removeDateHeure(index)" color="error">Supprimer</VBtn>
+                </div>
+              </VCol>
+
+              <VCol cols="12">
+                <VRow>
+                  <VCol cols="6">
+                    <VBtn block type="submit" color="primary">Ajouter un trajet</VBtn>
+                  </VCol>
+                  <VCol cols="6">
+                    <VBtn block @click="() => router.push('/trajetManagement')" color="error">Annuler</VBtn>
+                  </VCol>
+                </VRow>
+              </VCol>
+            </VRow>
+          </VForm>
+        </VCardText>
+
+        <VSnackbar
           v-model="snackbar.show"
           :color="snackbar.color"
           :timeout="snackbar.timeout"
         >
           {{ snackbar.message }}
         </VSnackbar>
-        
-    </VCard>
+      </VCard>
     </VCol>
   </VRow>
-  <!-- </div> -->
 </template>
 
 <script setup>
-// import { ref } from 'vue';
-// import { useStore } from 'vuex';
-// import { useRouter } from 'vue-router';
 import { ref, onMounted, nextTick } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
-import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
+import { useRouter } from 'vue-router';
 
 const store = useStore();
 const router = useRouter();
 
-const newUser = ref({ nom: '', prenom: '', telephone: '', role: '', email: '', password: '' });
-const isPasswordVisible = ref(false);
-
-const roles = ['Admin', 'Comptable', 'Client', 'Vendeur'];
-
-const errors = ref({
-  nom: '',
-  prenom: '',
-  telephone: '',
-  role: '',
-  email: '',
-  password: ''
+const newTrajet = ref({
+  point_depart: '',
+  point_arrivee: '',
+  prix: '',
+  statut: '',
+  description: '',
+  dates_de_depart: [],
+  heures_de_depart: []
 });
 
-// 
+const dateDepart = ref('');
+const heureDepart = ref('');
+const statusOptions = ['actif', 'inactif'];
+
+const errors = ref({
+  point_depart: '',
+  point_arrivee: '',
+  prix: '',
+  statut: '',
+  dates_de_depart: '',
+  heures_de_depart: ''
+});
+
 const snackbar = ref({
   show: false,
   message: '',
@@ -134,118 +158,87 @@ const snackbar = ref({
 const validateForm = () => {
   let isValid = true;
 
-  if (!newUser.value.nom) {
-    errors.value.nom = 'Nom is required';
+  if (!newTrajet.value.point_depart) {
+    errors.value.point_depart = 'Point de départ is required';
     isValid = false;
   } else {
-    errors.value.nom = '';
+    errors.value.point_depart = '';
   }
 
-  if (!newUser.value.prenom) {
-    errors.value.prenom = 'Prenom is required';
+  if (!newTrajet.value.point_arrivee) {
+    errors.value.point_arrivee = 'Point d\'arrivée is required';
     isValid = false;
   } else {
-    errors.value.prenom = '';
+    errors.value.point_arrivee = '';
   }
 
-  if (!newUser.value.telephone) {
-    errors.value.telephone = 'Telephone is required';
+  if (!newTrajet.value.prix) {
+    errors.value.prix = 'Prix is required';
     isValid = false;
   } else {
-    errors.value.telephone = '';
+    errors.value.prix = '';
   }
 
-  if (!newUser.value.role) {
-    errors.value.role = 'Role is required';
+  if (!newTrajet.value.statut) {
+    errors.value.statut = 'Statut is required';
     isValid = false;
   } else {
-    errors.value.role = '';
+    errors.value.statut = '';
   }
 
-  if (!newUser.value.email) {
-    errors.value.email = 'Email is required';
-    isValid = false;
-  } else if (!/\S+@\S+\.\S+/.test(newUser.value.email)) {
-    errors.value.email = 'Email is invalid';
+  if (newTrajet.value.dates_de_depart.length === 0) {
+    errors.value.dates_de_depart = 'At least one date de départ is required';
     isValid = false;
   } else {
-    errors.value.email = '';
+    errors.value.dates_de_depart = '';
   }
 
-  if (!newUser.value.password) {
-    errors.value.password = 'Password is required';
-    isValid = false;
-  } else if (newUser.value.password.length < 6) {
-    errors.value.password = 'Password must be at least 6 characters';
+  if (newTrajet.value.heures_de_depart.length === 0) {
+    errors.value.heures_de_depart = 'At least one heure de départ is required';
     isValid = false;
   } else {
-    errors.value.password = '';
+    errors.value.heures_de_depart = '';
   }
 
   return isValid;
 };
-/**
- * const updateUser = async () => {
+
+const addDateHeure = () => {
+  if (dateDepart.value && heureDepart.value) {
+    newTrajet.value.dates_de_depart.push(dateDepart.value);
+    newTrajet.value.heures_de_depart.push(heureDepart.value);
+    dateDepart.value = '';
+    heureDepart.value = '';
+  }
+};
+
+const removeDateHeure = (index) => {
+  newTrajet.value.dates_de_depart.splice(index, 1);
+  newTrajet.value.heures_de_depart.splice(index, 1);
+};
+
+const addTrajet = async () => {
   if (!validateForm()) {
     return;
   }
 
   try {
-    await store.dispatch('users/updateUser', user.value);
-    snackbar.value.message = 'Utilisateur modifié avec succès';
+    await store.dispatch('trajets/addTrajet', newTrajet.value);
+    snackbar.value.message = 'Trajet ajouté avec succès';
     snackbar.value.color = 'success';
     snackbar.value.show = true;
-    console.log(snackbar.value); // Debugging line
 
     await nextTick();
     setTimeout(() => {
       snackbar.value.show = false;
-      router.push({ name: 'userManagement' });
+      router.push({ name: 'trajetManagement' });
     }, snackbar.value.timeout);
   } catch (error) {
-    // console.error('Error updating user:', error);
-    snackbar.value.message = 'Erreur lors de la modification de l\'utilisateur';
+    snackbar.value.message = 'Erreur lors de l\'ajout du trajet';
     snackbar.value.color = 'error';
     snackbar.value.show = true;
-    console.log(snackbar.value); // Debugging line
   }
 };
- */
-
-const addUser = async () => {
-  if (!validateForm()) {
-    return;
-  }
-
-  try {
-    await store.dispatch('users/addUser', newUser.value);
-// 
- snackbar.value.message = 'Utilisateur ajouté avec succès';
-    snackbar.value.color = 'success';
-    snackbar.value.show = true;
-    console.log(snackbar.value); // Debugging line
-
-    await nextTick();
-    setTimeout(() => {
-      snackbar.value.show = false;
-      router.push({ name: 'userManagement' });
-    }, snackbar.value.timeout);
-// 
-    // router.push({ name: 'userManagement' });
-//   } catch (error) {
-//     console.error('Error adding user:', error);
-//   }
-// };
-}catch (error) {
-    // console.error('Error updating user:', error);
-    snackbar.value.message = 'Erreur lors de l\'ajout de l\'utilisateur';
-    snackbar.value.color = 'error';
-    snackbar.value.show = true;
-    console.log(snackbar.value); // Debugging line
-  }
-};
-
-// const annuler = async () => { router.push({ name: 'userManagement' });}
 </script>
 
 <style scoped>

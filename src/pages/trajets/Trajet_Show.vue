@@ -3,7 +3,7 @@
     <VCard>
       <VCardTitle class="headline">Détails du trajet</VCardTitle>
       <VCardText>
-        <VList>
+        <VList v-if="trajet && trajet.dates_de_depart && trajet.heures_de_depart">
           <VListItem>
             <VListItemContent>
               <VListItemTitle>Identifiant:</VListItemTitle>
@@ -16,10 +16,22 @@
               <VListItemSubtitle>{{ trajet.nom }}</VListItemSubtitle>
             </VListItemContent>
           </VListItem>
+           <VListItem>
+            <VListItemContent>
+              <VListItemTitle>Prix:</VListItemTitle>
+              <VListItemSubtitle>{{ trajet.prix }}</VListItemSubtitle>
+            </VListItemContent>
+          </VListItem>
           <VListItem>
             <VListItemContent>
               <VListItemTitle>Description:</VListItemTitle>
               <VListItemSubtitle>{{ trajet.description }}</VListItemSubtitle>
+            </VListItemContent>
+          </VListItem>
+             <VListItem>
+            <VListItemContent>
+              <VListItemTitle>Statut:</VListItemTitle>
+              <VListItemSubtitle>{{ trajet.statut }}</VListItemSubtitle>
             </VListItemContent>
           </VListItem>
           <VListItem>
@@ -57,7 +69,6 @@
 </template>
 
 <script setup>
-
 import { ref, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
 
@@ -90,36 +101,5 @@ watch(
   },
   { immediate: true }
 );
-// import { ref, watch } from 'vue';
-// import { useStore } from 'vuex';
 
-// const store = useStore();
-// const show = ref(false);
-// const trajet = ref({});
-// const props = defineProps(['trajetId']);
-
-// const updateShow = (value) => {
-//   show.value = value;
-// };
-
-// const closeDialog = () => {
-//   show.value = false;
-// };
-
-// watch(
-//   () => props.trajetId,
-//   async (newId) => {
-//     if (newId) {
-//       try {
-//         // Fetch the trajet details using the trajet ID
-//         trajet.value = await store.dispatch('trajets/fetchTrajetById', newId);
-//         console.log('Trajet fetched:', trajet.value);  // Log for debugging
-//         show.value = true;
-//       } catch (error) {
-//         console.error('Erreur lors de la récupération des détails du trajet:', error);
-//       }
-//     }
-//   },
-//   { immediate: true }
-// );
 </script>

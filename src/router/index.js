@@ -139,6 +139,32 @@ const router = createRouter({
           name: 'trajet-edit',
           component: () => import('../pages/trajets/trajetEdit.vue'), // Create this component
         },
+
+         // gestions des dateDepartsManagement
+
+         { 
+          path: '/trajets/:id/dateDepartManagement',
+          component: () => import('../pages/trajets/dateDepart/dateDepart.vue'),
+          meta: { requiresAuth: true } ,
+          name: 'dateDepartManagement'  
+        },
+        {
+          path: '/trajets/:trajetId/dates/:dateId/edit',
+          name: 'date-edit',
+          component: () => import('../pages/trajets/dateDepart/dateDepartEdit.vue'),
+        },
+        // {
+        // path: '/trajets/:trajetId/dates/',
+        // name: 'date-edit',
+        // component: () => import('../pages/trajets/dateDepart/addDateDepart.vue'),
+        // }
+          {
+            path: '/trajets/:id/addDateDepart',
+            name: 'addDateDepart',
+            component: () => import('../pages/trajets/dateDepart/addDateDepart.vue'),
+            props: true
+          }
+
       ],
       
     },

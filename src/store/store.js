@@ -9,6 +9,8 @@ import transactions from './modules/transactionModule.js';
 import tickets from './modules/ticketModule.js';
 import subscriptions from './modules/subscriptionModule.js';
 import trajets from './modules/trajetModule.js';
+import datesDeparts from './modules/datesDepartModule'; // Importer le nouveau module
+
 
 export default createStore({
   state: {
@@ -119,5 +121,6 @@ export default createStore({
     tickets,
     subscriptions,
     trajets,
+    datesDeparts
   },
 });
