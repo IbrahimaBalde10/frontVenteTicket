@@ -76,7 +76,7 @@
               </VCol>
               <!-- Navigation vers la modification des heures de départ -->
               <VCol cols="12" sm="6">
-                <VBtn @click="navigateTo('heureDepartManagement')" color="primary">Gestion Heures de Départ</VBtn>
+                <VBtn @click="navigateToHeureDepartManagement(trajet.id)" color="primary">Gestion Heures de Départ</VBtn>
               </VCol>
 
               <!-- Boutons de soumission -->
@@ -217,6 +217,10 @@ const navigateTo = (section) => {
 
 const navigateToDateDepartManagement = (trajetId) => {
   router.push({ name: 'dateDepartManagement', params: { id: trajetId } });
+};
+
+const navigateToHeureDepartManagement = (trajetId) => {
+  router.push({ name: 'heureDepartManagement', params: { id: trajetId } });
 };
 </script>
 

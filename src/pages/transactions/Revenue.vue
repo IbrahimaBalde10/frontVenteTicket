@@ -58,7 +58,7 @@ const chartOptions = computed(() => {
       bar: {
         borderRadius: 2,
         distributed: true,
-        columnWidth: '65%',
+        columnWidth: '95%',
         endingShape: 'rounded',
         startingShape: 'rounded',
       },
@@ -94,7 +94,7 @@ const chartOptions = computed(() => {
       tickPlacement: 'on',
       labels: {
         style: {
-          fontSize: '14px',
+          fontSize: '19px',
           colors: disabledText,
           fontFamily: 'Public Sans',
         },

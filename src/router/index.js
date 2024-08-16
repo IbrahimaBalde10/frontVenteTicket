@@ -43,27 +43,20 @@ const router = createRouter({
           name: 'user-edit',
           component: () => import('../pages/users/userEdit.vue'), // Create this component
         },
-         // route Type de tickets
-        //  lister
+        //  // route Type de tickets
+        // //  lister
          { 
           path: 'typeTicketsManagement',
           component: () => import('../pages/typeTickets/ticket.vue'),
           meta: { requiresAuth: true },
           name: 'typeTicketsManagement' //addTypeTicket
         },
-        // ajouter
-         { 
-          path: 'addTypeTicket',
-          component: () => import('../pages/typeTickets/addTypeTicket.vue'),
-          meta: { requiresAuth: true } ,
-          name: 'addTypeTicket' 
-        },
-        // modifier
-         {
-          path: 'typeTicket/:id/edit',
-          name: 'typeTicket-edit',
-          component: () => import('../pages/typeTickets/typeTicketEdit.vue'), // Create this component
-        },
+          {
+          path: 'ticket/:id/show',
+          name: 'ticket-show',
+          component: () => import('@/pages/typeTickets/ticket_Show.vue'), // Create this component
+        }
+        ,
         // my profile
          {
           path: 'account-settings',
@@ -117,6 +110,11 @@ const router = createRouter({
           meta: { requiresAuth: true } ,
           name: 'graphesTransaction'
         },
+         {
+          path: 'transaction/:id/show',
+          name: 'transaction-show',
+          component: () => import('@/pages/transactions/transaction_Show'), // Create this component
+        },
         // gestions des trajetsManagement
 
          { 
@@ -153,17 +151,32 @@ const router = createRouter({
           name: 'date-edit',
           component: () => import('../pages/trajets/dateDepart/dateDepartEdit.vue'),
         },
-        // {
-        // path: '/trajets/:trajetId/dates/',
-        // name: 'date-edit',
-        // component: () => import('../pages/trajets/dateDepart/addDateDepart.vue'),
-        // }
-          {
-            path: '/trajets/:id/addDateDepart',
-            name: 'addDateDepart',
-            component: () => import('../pages/trajets/dateDepart/addDateDepart.vue'),
-            props: true
-          }
+        {
+          path: '/trajets/:id/addDateDepart',
+          name: 'addDateDepart',
+          component: () => import('../pages/trajets/dateDepart/addDateDepart.vue'),
+          props: true
+        },
+
+         // gestions des heureDepartsManagement
+
+         { 
+          path: '/trajets/:id/heureDepartManagement',
+          component: () => import('../pages/trajets/heureDepart/heureDepart.vue'),
+          meta: { requiresAuth: true } ,
+          name: 'heureDepartManagement'  
+        },
+        {
+          path: '/trajets/:trajetId/heures/:heureId/edit',
+          name: 'heure-edit',
+          component: () => import('../pages/trajets/heureDepart/heureDepartEdit.vue'),
+        },
+        {
+          path: '/trajets/:id/addHeureDepart',
+          name: 'addHeureDepart',
+          component: () => import('../pages/trajets/heureDepart/addHeureDepart.vue'),
+          props: true
+        }
 
       ],
       

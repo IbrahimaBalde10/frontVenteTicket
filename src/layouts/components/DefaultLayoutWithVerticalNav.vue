@@ -40,7 +40,8 @@ const user = computed(() => store.getters.getUser);
           class="ms-n3 d-lg-none"
           @click="toggleVerticalOverlayNavActive(true)"
         >
-          <VIcon icon="bx-menu" />
+          <VIcon icon="bx-menu" 
+          />
         </IconBtn>
 
         <!-- 👉 Search -->
@@ -52,7 +53,7 @@ const user = computed(() => store.getters.getUser);
           <IconBtn>
             <VIcon icon="bx-search" />
           </IconBtn>
-
+          
           <span class="d-none d-md-flex align-center text-disabled">
             <span class="me-3">Search</span>
             <span class="meta-key">&#8984;K</span>
@@ -136,13 +137,13 @@ const user = computed(() => store.getters.getUser);
       />
       <!-- fin  get all users-->
         <!-- Gestion des Tickets -->
-        <!-- <VerticalNavLink
+        <VerticalNavLink
         :item="{
           title: 'Tickets',
           icon: 'bx-user-plus',
           to: '/typeTicketsManagement',
         }"
-      /> -->
+      />
       <!--  Gestion des subscriptions -->
         <!-- <VerticalNavLink
         :item="{

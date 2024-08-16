@@ -10,6 +10,7 @@ import tickets from './modules/ticketModule.js';
 import subscriptions from './modules/subscriptionModule.js';
 import trajets from './modules/trajetModule.js';
 import datesDeparts from './modules/datesDepartModule'; // Importer le nouveau module
+import heuresDeparts from './modules/heureDepartModule.js'; // Importer le nouveau module
 
 
 export default createStore({
@@ -121,6 +122,7 @@ export default createStore({
     tickets,
     subscriptions,
     trajets,
-    datesDeparts
+    datesDeparts,
+    heuresDeparts
   },
 });

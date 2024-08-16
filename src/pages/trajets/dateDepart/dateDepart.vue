@@ -122,37 +122,7 @@ const paginatedDates = computed(() => {
 // const updateDate = (trajetId, dateId) => {
 //   router.push({ name: 'date-edit', params: { trajetId, dateId } });
 // };
-const updateDate = (dateId) => {
-  router.push({ name: 'date-edit', params: { trajetId, dateId } });
-};
 
-
-const confirmDelete = (dateId) => {
-  dialog.value = {
-    show: true,
-    dateId: dateId,
-  };
-};
-
-const deleteDate = async () => {
-  try {
-    await store.dispatch('datesDeparts/deleteDate', { trajetId, dateId: dialog.value.dateId });
-    fetchDates(currentPage.value);
-    dialog.value.show = false;
-    snackbar.value = {
-      show: true,
-      text: 'Date de départ supprimée avec succès',
-      color: 'success',
-    };
-  } catch (error) {
-    console.error('Failed to delete date:', error);
-    snackbar.value = {
-      show: true,
-      text: 'Erreur lors de la suppression de la date de départ',
-      color: 'error',
-    };
-  }
-};
 </script>
 
 <style scoped>

@@ -20,8 +20,8 @@
               <tr>
                 <th class="text-center">Identifiant</th>
                 <th class="text-center">Nom</th>
-                <th class="text-center">Depart</th>
-                <th class="text-center">Arrive</th>
+                <th class="text-center">Départ</th>
+                <th class="text-center">Arrivée</th>
                 <!-- <th class="text-center">Description</th> -->
                 <th class="text-center">Prix</th>
                 <th class="text-center">Status</th>
@@ -83,7 +83,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-// import UserDetail from './UserShow.vue'; 
 import TrajetDetail from './Trajet_Show.vue'; // Assurez-vous que le chemin est correct
 
 const store = useStore();
