@@ -5,7 +5,7 @@ import upgradeBannerDark from '@images/pro/upgrade-banner-dark.png'
 import upgradeBannerLight from '@images/pro/upgrade-banner-light.png'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
-
+import recherche from '@/pages/recherche/SearchResults.vue'
 
 // Components
 import Footer from '@/layouts/components/Footer.vue'
@@ -27,6 +27,8 @@ const store = useStore();
 // Utilisation des getters
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const user = computed(() => store.getters.getUser);
+
+
 </script>
 
 <template>
@@ -55,21 +57,24 @@ const user = computed(() => store.getters.getUser);
           </IconBtn>
           
           <span class="d-none d-md-flex align-center text-disabled">
-            <span class="me-3">Search</span>
-            <span class="meta-key">&#8984;K</span>
+            <!-- <recherche /> -->
+            <!-- <span class="me-3">Search</span>
+            <span class="meta-key">&#8984;K</span> -->
           </span>
+         
+
         </div>
 
         <VSpacer />
 
-        <IconBtn
+        <!-- <IconBtn
           class="me-2"
           href="https://github.com/IbrahimaBalde10"
           target="_blank"
           rel="noopener noreferrer"
         >
           <VIcon icon="bxl-github" />
-        </IconBtn>
+        </IconBtn> -->
         
         <IconBtn class="me-2">
           <VIcon icon="bx-bell" />
@@ -121,7 +126,7 @@ const user = computed(() => store.getters.getUser);
         <VerticalNavLink
         :item="{
           title: 'Utilisateurs',
-          icon: 'bx-user-plus',
+          icon: 'bx-user',
           to: '/userManagement',
         }"
       />
@@ -131,7 +136,7 @@ const user = computed(() => store.getters.getUser);
        <VerticalNavLink
         :item="{
           title: 'Trajets',
-          icon: 'bx-user-plus',
+          icon: 'bx-map',
           to: '/trajetManagement',
         }"
       />
@@ -140,23 +145,23 @@ const user = computed(() => store.getters.getUser);
         <VerticalNavLink
         :item="{
           title: 'Tickets',
-          icon: 'bx-user-plus',
+          icon: 'bx-receipt',
           to: '/typeTicketsManagement',
         }"
       />
       <!--  Gestion des subscriptions -->
-        <!-- <VerticalNavLink
+        <VerticalNavLink
         :item="{
           title: 'Subscriptions',
           icon: 'bx-user-plus',
           to: '/typeSubscriptionsManagement',
         }"
-      /> -->
+      />
        <!--  Gestion des Transactions -->
         <VerticalNavLink
         :item="{
-          title: 'Transactions',
-          icon: 'bx-user-plus',
+          title: 'Ventes',
+          icon: 'bx-transfer',
           to: '/transcation',
         }"
       />

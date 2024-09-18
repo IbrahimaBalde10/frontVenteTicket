@@ -4,13 +4,15 @@ import axios from "../axios.js";
 
 import users from './modules/userModule.js';
 // import typeTickets from './modules/typeTicketModule.js';
-import typeSubscriptions from './modules/typeSubscriptionModule.js';
+import subscriptionTypes from './modules/typeSubscriptionModule.js';
 import transactions from './modules/transactionModule.js';
 import tickets from './modules/ticketModule.js';
 import subscriptions from './modules/subscriptionModule.js';
 import trajets from './modules/trajetModule.js';
 import datesDeparts from './modules/datesDepartModule'; // Importer le nouveau module
 import heuresDeparts from './modules/heureDepartModule.js'; // Importer le nouveau module
+// import search from './modules/rechercheModule.js'
+import rechercheModule from './modules/rechercheModule.js';
 
 
 export default createStore({
@@ -117,12 +119,14 @@ export default createStore({
   modules: {
     users,
     // typeTickets,
-    typeSubscriptions,
+    subscriptionTypes,
     transactions,
     tickets,
     subscriptions,
     trajets,
     datesDeparts,
-    heuresDeparts
+    heuresDeparts,
+    recherche: rechercheModule,
+    // search
   },
 });

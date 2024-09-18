@@ -42,7 +42,7 @@ const allSubscriptionsEspire = computed(() => store.getters['subscriptions/allSu
           :change="revenue.total_revenue / totalRevenue * 100"
         />
       </VCol>
-      <VCol cols="12" md="3" v-for="subscription in subscriptionsByType" :key="subscription.type_name">
+      <!-- <VCol cols="12" md="3" v-for="subscription in subscriptionsByType" :key="subscription.type_name">
         <CardStatisticsVertical
           :title="subscription.type_name"
           icon="mdi-subscription"
@@ -50,7 +50,7 @@ const allSubscriptionsEspire = computed(() => store.getters['subscriptions/allSu
           :stats="subscription.count"
           :change="subscription.count / subscriptionCount * 100"
         />
-      </VCol>
+      </VCol> -->
       <VCol cols="12" md="3">
         <CardStatisticsVertical
           title="Subscriptions Valide"

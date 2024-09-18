@@ -22,9 +22,9 @@
                 <th class="text-center">Nom</th>
                 <th class="text-center">Prenom</th>
                 <th class="text-center">Telephone</th>
-                <th class="text-center">Role</th>
-                <th class="text-center">Email</th>
-                <th class="text-center">Status</th>
+                <!-- <th class="text-center">Role</th> -->
+                <!-- <th class="text-center">Email</th> -->
+                <!-- <th class="text-center">Status</th> -->
                 <th class="text-center">Actions</th>
               </tr>
             </thead>
@@ -34,13 +34,16 @@
                 <td class="text-center">{{ user.nom }}</td>
                 <td class="text-center">{{ user.prenom }}</td>
                 <td class="text-center">{{ user.telephone }}</td>
-                <td class="text-center">{{ user.role }}</td>
-                <td class="text-center">{{ user.email }}</td>
-                <td class="text-center">{{ user.status }}</td>
+                <!-- <td class="text-center">{{ user.role }}</td> -->
+                <!-- <td class="text-center">{{ user.email }}</td> -->
+                <!-- <td class="text-center">{{ user.status }}</td> -->
                 <td class="text-center">
                   <VIcon @click="showUserDetails(user.id)" class="ms-2" color="primary" small>mdi-eye</VIcon>
                   <VIcon @click="updateUser(user.id)" class="ms-2" color="warning" small>mdi-pencil</VIcon>
                   <VIcon @click="confirmDelete(user.id)" color="error" small>mdi-delete</VIcon>
+                  
+                  <!-- <VIcon v-if="!user.is_blocked" @click="activeUser(user.id)" color="error" small>mdi-block</VIcon> -->
+                  <!-- <VIcon v-if="user.is_blocked" @click="desactiveUser(user.id)" color="success" small>mdi-check-circle</VIcon> -->
                 </td>
               </tr>
             </tbody>
@@ -108,7 +111,7 @@ const selectedUserId = ref(null);
 const currentPage = ref(1);
 
 onMounted(() => {
-  store.dispatch('users/fetchUsers', { page: currentPage.value, perPage: 5 });
+  store.dispatch('users/fetchUsers', { page: currentPage.value, perPage: 4 });
 });
 
 const allUsers = computed(() => store.getters['users/allUsers']);
@@ -135,7 +138,27 @@ const confirmDelete = (userId) => {
     userId: userId
   };
 };
+// // desactiver un user
+// const desactiveUser = async (userId) => {
+//   try {
+//     await store.dispatch('users/deactivateUser', userId);
+//     store.dispatch('users/fetchUsers'); // Refresh the user list after deletion
+//   } catch (error) {
+//     console.error('Error deleting user:', error);
+//   }
+// };
 
+// // activer un user
+// const activeUser = async (userId) => {
+//   try {
+//     await store.dispatch('users/activateUser', userId);
+//     store.dispatch('users/fetchUsers'); // Refresh the user list after deletion
+//   } catch (error) {
+//     console.error('Error deleting user:', error);
+//   }
+// };
+
+// supprimer 
 const deleteUser = async () => {
   try {
     await store.dispatch('users/deleteUser', dialog.value.userId);
@@ -159,3 +182,4 @@ const deleteUser = async () => {
   }
 };
 </script>
+

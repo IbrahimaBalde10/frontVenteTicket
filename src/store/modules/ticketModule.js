@@ -218,7 +218,7 @@ const state = {
 const getters = {
   allTickets: (state) => state.tickets,
     // ticket: (state) => state.ticket,
-
+  ticketCount: state => state.tickets.length, // Compter les tickets
   errorMessage: (state) => state.errorMessage,
   ticketsByType: (state) => state.ticketsByType,
   totalRevenueByType: (state) => state.totalRevenueByType,

@@ -1,5 +1,5 @@
 <template>
-  <VDialog :model-value="show" @update:model-value="updateShow" max-width="600px">
+  <VDialog :model-value="show" @update:model-value="updateShow" max-width="800px">
     <VCard>
       <VCardTitle class="headline">Détails du Trajet</VCardTitle>
       <VCardText>
@@ -12,14 +12,22 @@
           </VListItem>
           <VListItem>
             <VListItemContent>
-              <VListItemTitle>Nom:</VListItemTitle>
+              <VListItemTitle>Nom du trajet:</VListItemTitle>
               <VListItemSubtitle>{{ trajet.nom }}</VListItemSubtitle>
+            </VListItemContent>
+             <VListItemContent>
+              <VListItemTitle>Depart</VListItemTitle>
+              <VListItemSubtitle>{{ trajet.point_depart }}</VListItemSubtitle>
+            </VListItemContent>
+              <VListItemContent>
+              <VListItemTitle>Arrivée</VListItemTitle>
+              <VListItemSubtitle>{{ trajet.point_arrivee }}</VListItemSubtitle>
             </VListItemContent>
           </VListItem>
           <VListItem>
             <VListItemContent>
               <VListItemTitle>Prix:</VListItemTitle>
-              <VListItemSubtitle>{{ trajet.prix }}</VListItemSubtitle>
+              <VListItemSubtitle>{{ Number(trajet.prix).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} CFA</VListItemSubtitle>
             </VListItemContent>
           </VListItem>
           <VListItem>
@@ -35,7 +43,7 @@
             </VListItemContent>
           </VListItem>
 
-          <!-- Dates de départ avec pagination -->
+          <!-- Dates de départ avec pagination
           <VCardTitle class="headline">Dates de Départ</VCardTitle>
           <VRow>
             <VCol
@@ -52,7 +60,7 @@
                 <VIcon @click="confirmDelete(date.id)" color="error" small>mdi-delete</VIcon>
               </div>
             </VCol>
-          </VRow>
+          </VRow> -->
 
           <!-- Pagination -->
           <VPagination

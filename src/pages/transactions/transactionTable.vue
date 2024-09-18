@@ -25,10 +25,10 @@
                 <td class="text-center">{{ transaction.client ? transaction.client.nom : 'N/A' }}
                   {{transaction.client ? transaction.client.prenom : 'N/A' }}
                 </td>
-
-                <td class="text-center">{{ transaction.price }}</td>
+<!-- {{ Number(trajet.prix).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} -->
+                <td class="text-center">{{ Number(transaction.price).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} CFA</td>
                 <!-- <td class="text-center">{{ transaction.quantity }}</td> -->
-                <td class="text-center">{{ transaction.total_amount }}</td>
+                <td class="text-center">{{ Number(transaction.total_amount).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} CFA</td>
                 <td class="text-center">{{ transaction.transaction_name }}</td>
                 <td class="text-center">{{ transaction.methodePaiement }}</td>
                 <td class="text-center">

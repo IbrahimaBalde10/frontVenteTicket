@@ -1,7 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router'
 
-// import TypeTicketManagement from '../typeTickets/typeTicketsManagement.vue';
 import TicketManagement from './specificites/TicketManagement.vue';
 // import DashboardManagement from './specificites/Dashboard.vue';
 import DashboardManagement from '@/pages/typeTickets/specificites/Dashboard.vue';
@@ -13,11 +12,6 @@ const activeTab = ref(route.params.tab)
 
 // Définition des onglets
 const tabs = [
-  // {
-  //   title: 'Types de tickets',
-  //   icon: 'bx-user',
-  //   tab: 'TypeTicketManagement',
-  // },
   {
     title: 'Tickets',
     icon: 'bx-user',
@@ -28,11 +22,11 @@ const tabs = [
     icon: 'bx-user',
     tab: 'DashboardManagement',
   },
-   {
-    title: 'statistique',
-    icon: 'bx-user',
-    tab: 'statistique',
-  },
+  //  {
+  //   title: 'statistique',
+  //   icon: 'bx-user',
+  //   tab: 'statistique',
+  // },
 
 ]
 </script>

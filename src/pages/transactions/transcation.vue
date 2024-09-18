@@ -11,27 +11,27 @@ const activeTab = ref(route.params.tab)
 
 // Définition des onglets
 const tabs = [
-  {
-    title: 'Transactions',
-    icon: 'bx-user',
-    tab: 'transactionManagement',
-  },
-  {
-    title: 'Statistique',
-    icon: 'bx-user',
-    tab: 'Statistique',
-  },
-   {
-    title: 'Graphes',
-    icon: 'bx-user',
-    tab: 'Graphes',
-  },
+  // {
+  //   title: 'Transactions',
+  //   icon: 'bx-user',
+  //   tab: 'transactionManagement',
+  // },
+  // {
+  //   title: 'Statistique',
+  //   icon: 'bx-user',
+  //   tab: 'Statistique',
+  // },
+  //  {
+  //   title: 'Graphes',
+  //   icon: 'bx-user',
+  //   tab: 'Graphes',
+  // },
 ]
 </script>
 
 <template>
   <div>
-    <VTabs
+    <!-- <VTabs
       v-model="activeTab"
       show-arrows
     >
@@ -47,7 +47,7 @@ const tabs = [
         />
         {{ item.title }}
       </VTab>
-    </VTabs>
+    </VTabs> -->
     <VDivider />
 
     <VWindow
@@ -61,12 +61,12 @@ const tabs = [
 
       <!-- Statistique -->
       <VWindowItem value="Statistique">
-        <Statistique />
+        <!-- <Statistique /> -->
       </VWindowItem>
 
      <!-- ComptableManagement -->
       <VWindowItem value="Graphes">
-        <Graphes />
+        <!-- <Graphes /> -->
       </VWindowItem>
     </VWindow>
   </div>

@@ -6,13 +6,17 @@
         <div class="ticket-details">
           <div class="details-column">
             <h3>Informations sur le Ticket</h3>
+            <!--  -->
             <p><strong>ID Ticket:</strong> {{ ticket.id }}</p>
             <p><strong>Type:</strong> {{ ticket.type }}</p>
             <p><strong>Utilisateur:</strong> {{ ticket.nom }}</p>
             <p><strong>Trajet:</strong> {{ ticket.trajet ? ticket.trajet.nom : 'N/A' }}</p>
-            
-           
+            <p><strong>Prix du trajet: </strong>{{ticket.trajet ?  Number(ticket.trajet.prix).toLocaleString('fr-FR', {minimumFractionDigits: 0}):  'N/A' }} CFA</p>
+            <!-- <p><strong>Montant du trajet:</strong> {{ ticket.trajet ? ticket.trajet.prix : 'N/A' }} CFA</p> -->
+            <!-- <p><strong>Montant du ticket: </strong> ({{ ticket.trajet ? ticket.trajet.prix : 'N/A' }}*2) CFA</p> -->
+            <p><strong>Arrivée:</strong> {{ ticket.trajet ? ticket.trajet.point_arrivee : 'N/A' }}</p>
             <p><strong>Statut:</strong> {{ ticket.statut }}</p>
+            <p><strong>QR_Code:</strong> {{ ticket.qr_code }}</p>
             <p><strong>Date d'Expiration:</strong> {{ new Date(ticket.expiration_date).toLocaleString() }}</p>
           </div>
         </div>

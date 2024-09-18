@@ -24,7 +24,7 @@
                 <th class="text-center">Arrivée</th>
                 <!-- <th class="text-center">Description</th> -->
                 <th class="text-center">Prix</th>
-                <th class="text-center">Status</th>
+                <th class="text-center">Disponibilité</th>
                 <th class="text-center">Actions</th>
               </tr>
             </thead>
@@ -34,8 +34,8 @@
                 <td class="text-center">{{ trajet.nom }}</td>
                 <td class="text-center">{{ trajet.point_depart }}</td>
                 <td class="text-center">{{ trajet.point_arrivee }}</td>
-                <!-- <td class="text-center">{{ trajet.description }}</td> -->
-                <td class="text-center">{{ trajet.prix }}</td>
+                <!-- <td class="text-center">{{ trajet.prix }}</td> -->
+                 <td class="text-center">{{ Number(trajet.prix).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} CFA</td>
                 <td class="text-center">{{ trajet.statut }}</td>
                 <td class="text-center">
                   <VIcon @click="showTrajetDetails(trajet.id)" class="ms-2" color="primary" small>mdi-eye</VIcon>

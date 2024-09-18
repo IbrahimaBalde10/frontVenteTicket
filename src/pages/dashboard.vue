@@ -9,6 +9,8 @@ import userIcon from '@images/myImages/user.png'
 import transactionIcon from '@images/myImages/transaction.png'
 import ticketIcon from '@images/myImages/ticket.png'
 import subscriptionIcon from '@images/myImages/subscription.png'
+// essai
+import Recherche from '@/pages/recherche/SearchResults.vue'
 
 // utisation de store
 
@@ -17,10 +19,11 @@ import { useStore } from 'vuex';
 const store = useStore();
 onMounted(() => {
   store.dispatch('users/fetchUsers');
-  store.dispatch('transactions/fetchTransactions');
+  store.dispatch('transactions/fetchtransactions');
   store.dispatch('tickets/fetchTickets');
   store.dispatch('subscriptions/fetchSubscriptions');
 });
+
 const userCount = computed(() => store.getters['users/userCount']); // Utilisation de computed pour réagir aux changements
 const transactionCount = computed(() => store.getters['transactions/transactionCount']); // Utilisation de computed pour réagir aux changements
 const ticketCount = computed(() => store.getters['tickets/ticketCount']); // Utilisation de computed pour réagir aux changements
@@ -68,6 +71,7 @@ const subscriptionCount = computed(() => store.getters['subscriptions/subscripti
     <!-- 👉 Total Revenue -->
     <VCol cols="12" md="8" order="2" order-md="1" >
       <!-- <AnalyticsTotalRevenue /> -->
+      <!-- <Recherche /> -->
       <Revenu />
     </VCol>
 
@@ -82,7 +86,7 @@ const subscriptionCount = computed(() => store.getters['subscriptions/subscripti
         <!-- 👉 Abonnement -->
         <VCol  cols="12" sm="6">
           <CardStatisticsVertical
-           :title="'Subscriptions'"
+           :title="'Abonements'"
           :image="subscriptionIcon"
           :change="subscriptionCount%100"
           :stats="subscriptionCount"
@@ -91,17 +95,22 @@ const subscriptionCount = computed(() => store.getters['subscriptions/subscripti
         </VCol>
 
      
-  <!-- 👉 Transactions -->
+   <!-- 👉 Transactions -->
   <VCol cols="12" sm="6">
     <CardStatisticsVertical
-      :title="'Transactions'"
+      :title="'Ventes'"
       :image="transactionIcon"
       :change="transactionCount%100"
       :stats="transactionCount"
       :to="{ name: 'transcation' }"
     />
-  </VCol>
+  </VCol> 
+  
  
+   <!-- 👉 Recherche -->
+  <VCol cols="12" sm="9">
+    <!-- <Recherche /> -->
+  </VCol>
 </VRow>
 
       <VRow>
@@ -110,7 +119,7 @@ const subscriptionCount = computed(() => store.getters['subscriptions/subscripti
           cols="12"
           sm="12"
         >
-          <AnalyticsProfitReport />
+          <!-- <AnalyticsProfitReport /> -->
         </VCol>
       </VRow>
     </VCol>

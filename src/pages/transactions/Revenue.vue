@@ -5,7 +5,8 @@
          Total Revenue
       </h6>
       <h5 class="text-h5 font-weight-medium">
-         {{ totalAmount }} CFA
+        <!-- {{ Number(trajet.prix).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} -->
+      {{ Number(totalAmount).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} CFA
       </h5>
     </VCardText>
 
@@ -67,7 +68,8 @@ const chartOptions = computed(() => {
     tooltip: { 
       enabled: true,
       y: {
-        formatter: (value) => `${value} CFA`,
+        // formatter: (value) => `${value} CFA`,
+         formatter: (value) => `${Number(value).toLocaleString('fr-FR', {minimumFractionDigits: 0})} CFA`,
         title: {
           formatter: (seriesName) => '',
         }
@@ -103,7 +105,9 @@ const chartOptions = computed(() => {
     yaxis: { 
       show: true, 
       labels: { 
-        formatter: (value) => `${value} CFA` 
+      // <!-- {{ Number(trajet.prix).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} -->
+
+        formatter: (value) => `${Number(value).toLocaleString('fr-FR', {minimumFractionDigits: 0})} CFA`
       } 
     },
     grid: {

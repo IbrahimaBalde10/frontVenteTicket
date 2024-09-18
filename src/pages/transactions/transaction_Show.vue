@@ -10,9 +10,10 @@
             <p><strong>Type:</strong> {{ transaction.transaction_name }}</p>
             <template v-if="transaction.transaction_name !== 'subscription'">
               <p><strong>Quantité:</strong> {{ transaction.quantity }}</p>
-              <p><strong>Prix unitaire:</strong> {{ transaction.price }}</p>
+              <!-- {{ Number(trajet.prix).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} -->
+              <p><strong>Prix unitaire: </strong>{{ Number(transaction.price).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} CFA</p>
             </template>
-            <p><strong>Montant totale payé:</strong> {{ transaction.total_amount }}</p>
+            <p><strong>Montant totale payé:</strong> {{ Number(transaction.total_amount).toLocaleString('fr-FR', {minimumFractionDigits: 0}) }} CFA</p>
             <p><strong>Methode de Paiement:</strong> {{ transaction.methodePaiement }}</p>
             <p><strong>Date:</strong> {{ new Date(transaction.created_at).toLocaleString() }}</p>
           </div>
@@ -21,12 +22,14 @@
             <p><strong>Par: </strong> {{ transaction.user.prenom }} {{ transaction.user.nom }}</p>
             <p><strong>Role:</strong> {{ transaction.user.role }}</p>
             <p><strong>Email:</strong> {{ transaction.user.email }}</p>
+            <p><strong>Tel:</strong> {{ transaction.user.telephone }}</p>
           </div>
           <div class="details-column">
             <h3>Détails du Client</h3>
             <p><strong>Client:</strong> {{ transaction.client.prenom }} {{ transaction.client.nom }}</p>
             <p><strong>Role:</strong> {{ transaction.client.role }}</p>
             <p><strong>Email:</strong> {{ transaction.client.email }}</p>
+            <p><strong>Tel:</strong> {{ transaction.client.telephone }}</p>
           </div>
         </div>
       </VCardText>
